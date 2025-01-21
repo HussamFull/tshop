@@ -10,10 +10,6 @@ import { Bounce, toast, Flip } from 'react-toastify';
 
 
 
-
-
-
-
 export default function Login() {
 
 
@@ -31,6 +27,9 @@ export default function Login() {
     setIsLoding(true);
     try {
       const response = await axios.post(`https://ecommerce-node4.onrender.com/auth/signin`, value);
+      
+      localStorage.setItem("userToken", response.data.token);
+
       if (response.status == 200) {
         toast.success('Welcome to Tshop !', {
           position: "top-right",
