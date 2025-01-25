@@ -3,6 +3,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+
+
+
+
+
+import { Link } from "react-router-dom";
+
 export default function CategoryProducts() {
   const { categoryId } = useParams();
 
@@ -70,9 +77,13 @@ export default function CategoryProducts() {
                             <span className="mr-4">${product.finalPrice}</span>
                             <del>${product.price} </del>
                           </div>
+                          <Link to={`/product/${product._id}`} className="btn btn-primary mt-3">Details</Link>
                         </div>
                       </div>
+                      
                     </div>
+                   
+
                   ))}
                 </div>
               </div>
