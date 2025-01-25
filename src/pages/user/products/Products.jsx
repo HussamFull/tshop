@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios';
 
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 
 
@@ -63,9 +64,9 @@ export default function Products() {
                             <div className="product-img">
                               <img className="card-img" src={product.mainImage.secure_url}  alt />
                               <div className="p_icon">
-                                <a href="#">
-                                  <i className="ti-eye" />
-                                </a>
+                                <Link href="#">
+                                  <Link to={`/product/${product._id}`} className="ti-eye" />
+                                </Link>
                                 <a href="#">
                                   <i className="ti-heart" />
                                 </a>
@@ -82,6 +83,7 @@ export default function Products() {
                                     <span className="mr-4">${product.finalPrice}</span>
                                     <del>${product.price} </del>
                                 </div>
+                                <Link to={`/product/${product._id}`} className="btn btn-primary mt-3">Details</Link>
                             </div>
                           </div>
                         </div>

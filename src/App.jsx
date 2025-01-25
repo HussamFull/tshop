@@ -11,6 +11,7 @@ import UserLayout from './layouts/UserLayout'
 import Categories from './pages/user/category/Categories'
 import Products from './pages/user/products/Products'
 import CategoryProducts from './pages/user/products/CategoryProducts'
+import ProductDetails from './pages/user/products/ProductDetails'
 
 
 
@@ -40,8 +41,8 @@ export default function App() {
           { path: '/', element: <Home /> },
           { path: 'categories', element: <Categories /> },
           { path: '/categories/:categoryId', element: <CategoryProducts /> },
-
           { path: 'products', element: <Products /> },
+          { path: 'product/:productId', element: <ProductDetails /> },
         ],
       },
      
