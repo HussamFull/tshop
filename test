@@ -11,7 +11,7 @@
                     <p>Very us move be blessed multiply night</p>
                   </div>
                   <div className="page_link">
-                    <a href="index.html">Home</a>
+                    <Link to={'/'} >Home</Link>
                     <a href="single-product.html">Product Details</a>
                   </div>
                 </div>

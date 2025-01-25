@@ -64,7 +64,7 @@ export default function Products() {
                             <div className="product-img">
                               <img className="card-img" src={product.mainImage.secure_url}  alt />
                               <div className="p_icon">
-                                <Link href="#">
+                                <Link >
                                   <Link to={`/product/${product._id}`} className="ti-eye" />
                                 </Link>
                                 <a href="#">
@@ -83,6 +83,10 @@ export default function Products() {
                                     <span className="mr-4">${product.finalPrice}</span>
                                     <del>${product.price} </del>
                                 </div>
+                                 <Link to={`/categories/${category._id}`} className="d-block">
+                                
+                                                                                        <h4> </h4>
+                                                                                    </Link>
                                 <Link to={`/product/${product._id}`} className="btn btn-primary mt-3">Details</Link>
                             </div>
                           </div>

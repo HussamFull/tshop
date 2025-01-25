@@ -77,7 +77,8 @@ export default function CategoryProducts() {
                             <span className="mr-4">${product.finalPrice}</span>
                             <del>${product.price} </del>
                           </div>
-                          <Link to={`/product/${product._id}`} className="btn btn-primary mt-3">Details</Link>
+                          
+                                     <Link to={`/product/${product._id}`} className="btn btn-primary mt-3">Details</Link>
                         </div>
                       </div>
                       
