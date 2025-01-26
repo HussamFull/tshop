@@ -3,9 +3,17 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Bounce, toast, Flip } from "react-toastify";
+
+import { useNavigate } from "react-router-dom";
+
+
+
+
 
 export default function ProductDetails() {
   const { productId } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
@@ -23,6 +31,46 @@ export default function ProductDetails() {
       setIsLoading(false);
     }
   };
+
+  const AddProductToCart = async (id)=>{
+    try {
+      const token = localStorage.getItem("userToken");
+      const response = await axios.post(
+        `https://ecommerce-node4.onrender.com/cart`,
+        {
+          productId: productId,
+          
+        },
+        {
+          headers: {
+            Authorization: `Tariq__${token}`,
+          },
+        }
+
+      );
+      if (response.status == 201) {
+        toast.success('Product added to Cart!', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Flip,
+        });
+        navigate('/cart');
+        
+      }
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+    }
+    
+  }
+
 
   useEffect(() => {
     getProduct();
@@ -159,9 +207,9 @@ export default function ProductDetails() {
                   </button>
                 </div>
                 <div class="card_area">
-                  <a class="main_btn" href="#">
+                  <button onClick={()=> AddProductToCart(product._id)} class="main_btn" >
                     Add to Cart
-                  </a>
+                  </button>
                   <a class="icon_btn" href="#">
                     <i class="lnr lnr lnr-diamond"></i>
                   </a>

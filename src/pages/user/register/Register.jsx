@@ -8,6 +8,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Bounce, toast, Flip } from 'react-toastify';
 import { Badge } from 'react-bootstrap';
+import CustomNavbar from '../../../components/user/navbar/Navbar';
+
 
 
 
@@ -88,6 +90,7 @@ export default function Register() {
   return (
     <>
       <Container>
+        <CustomNavbar />
         <Row>
 
           <h1>Register</h1>

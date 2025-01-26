@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Bounce, toast, Flip } from 'react-toastify';
+import CustomNavbar from '../../../components/user/navbar/Navbar';
 
 
 
@@ -85,6 +86,8 @@ export default function Login() {
 
   return (
     <>
+
+    <CustomNavbar />
       <Container>
         <Row>
 

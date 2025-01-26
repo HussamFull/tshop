@@ -12,6 +12,7 @@ import Categories from './pages/user/category/Categories'
 import Products from './pages/user/products/Products'
 import CategoryProducts from './pages/user/products/CategoryProducts'
 import ProductDetails from './pages/user/products/ProductDetails'
+import Cart from './pages/user/cart/Cart'
 
 
 
@@ -43,6 +44,8 @@ export default function App() {
           { path: '/categories/:categoryId', element: <CategoryProducts /> },
           { path: 'products', element: <Products /> },
           { path: 'product/:productId', element: <ProductDetails /> },
+          { path: 'cart', element: <Cart /> },
+
         ],
       },
      
