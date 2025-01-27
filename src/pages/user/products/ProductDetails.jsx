@@ -5,21 +5,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bounce, toast, Flip } from "react-toastify";
 
-
-
-
-
-
-
-
 import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
-
-
-
-
-
 
 export default function ProductDetails() {
   const { productId } = useParams();
@@ -42,24 +30,22 @@ export default function ProductDetails() {
     }
   };
 
-  const AddProductToCart = async (id)=>{
+  const AddProductToCart = async (id) => {
     try {
       const token = localStorage.getItem("userToken");
       const response = await axios.post(
         `https://ecommerce-node4.onrender.com/cart`,
         {
           productId: productId,
-          
         },
         {
           headers: {
             Authorization: `Tariq__${token}`,
           },
         }
-
       );
       if (response.status == 201) {
-        toast.success('Product added to Cart!', {
+        toast.success("Product added to Cart!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -70,17 +56,14 @@ export default function ProductDetails() {
           theme: "dark",
           transition: Flip,
         });
-        navigate('/cart');
-        
+        navigate("/cart");
       }
       console.log(response.data);
     } catch (error) {
       console.error(error);
       setError(error.message);
     }
-    
-  }
-
+  };
 
   useEffect(() => {
     getProduct();
@@ -103,8 +86,8 @@ export default function ProductDetails() {
                 <p>Very us move be blessed multiply night</p>
               </div>
               <div className="page_link">
-              <Link to={'/'}  >Home</Link>
-                <a >Product Details</a>
+                <Link to={"/"}>Home</Link>
+                <a>Product Details</a>
               </div>
             </div>
           </div>
@@ -123,51 +106,46 @@ export default function ProductDetails() {
                   class="carousel slide"
                   data-ride="carousel"
                 >
-                  <ol class="carousel-indicators">
+                  <ol className="carousel-indicators">
                     <li
                       data-target="#carouselExampleIndicators"
                       data-slide-to="0"
-                      class="active"
+                      className="active"
                     >
-                      <img src={product.mainImage.secure_url} alt="" />
+                      <img
+                        width="50px"
+                        src={product.mainImage.secure_url}
+                        alt=""
+                      />
                     </li>
-                    <li
-                      data-target="#carouselExampleIndicators"
-                      data-slide-to="1"
-                    >
-                      <img src={product.subImages.secure_url} alt="" />
-                    </li>
-                    <li
-                      data-target="#carouselExampleIndicators"
-                      data-slide-to="2"
-                    >
-                      <img src={product.subImages.secure_url} alt="" />
-                    </li>
+                    {product.subImages.map((image, index) => (
+                      <li
+                        data-target="#carouselExampleIndicators"
+                        data-slide-to={index + 1}
+                        key={index}
+                      >
+                        <img src={image.secure_url} alt="" width="50px" />
+                      </li>
+                    ))}
                   </ol>
 
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
+                  <div className="carousel-inner">
+                    <div className="carousel-item active">
                       <img
-                        class="d-block w-100"
-                        src={product.subImages.secure_url}
+                        className="d-block w-100"
+                        src={product.mainImage.secure_url}
                         alt="First slide"
                       />
                     </div>
-
-                    <div class="carousel-item">
-                      <img
-                        class="d-block w-100"
-                        src={product.subImages.secure_url}
-                        alt="Second slide"
-                      />
-                    </div>
-                    <div class="carousel-item">
-                      <img
-                        class="d-block w-100"
-                        src={product.subImages.secure_url}
-                        alt="Third slide"
-                      />
-                    </div>
+                    {product.subImages.map((image, index) => (
+                      <div className="carousel-item" key={index}>
+                        <img
+                          className="d-block w-100"
+                          src={image.secure_url}
+                          alt={`Slide ${index + 2}`}
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -217,7 +195,10 @@ export default function ProductDetails() {
                   </button>
                 </div>
                 <div class="card_area">
-                  <button onClick={()=> AddProductToCart(product._id)} class="main_btn" >
+                  <button
+                    onClick={() => AddProductToCart(product._id)}
+                    class="main_btn"
+                  >
                     Add to Cart
                   </button>
                   <a class="icon_btn" href="#">
@@ -547,7 +528,6 @@ export default function ProductDetails() {
                       </div>
                     </div>
 
-
                     <div class="col-6">
                       <div class="rating_list">
                         <h3>Based on 3 Reviews</h3>
@@ -615,7 +595,6 @@ export default function ProductDetails() {
                             alt=""
                           />
                         </div>
-
 
                         <div class="media-body">
                           <h4>Blake Ruiz</h4>
