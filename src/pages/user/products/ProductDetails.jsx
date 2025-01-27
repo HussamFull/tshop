@@ -5,7 +5,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bounce, toast, Flip } from "react-toastify";
 
+
+
+
+
+
+
+
+import { Link } from "react-router-dom";
+
 import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -93,8 +103,8 @@ export default function ProductDetails() {
                 <p>Very us move be blessed multiply night</p>
               </div>
               <div className="page_link">
-                <a href="index.html">Home</a>
-                <a href="single-product.html">Product Details</a>
+              <Link to={'/'}  >Home</Link>
+                <a >Product Details</a>
               </div>
             </div>
           </div>
