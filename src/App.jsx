@@ -13,7 +13,7 @@ import Products from './pages/user/products/Products'
 import CategoryProducts from './pages/user/products/CategoryProducts'
 import ProductDetails from './pages/user/products/ProductDetails'
 import Cart from './pages/user/cart/Cart'
-import app from './app.css';
+import App from './app.css';
 
 
 
