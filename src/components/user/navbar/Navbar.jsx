@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import login  from '../../../pages/user/login/Login'
 import register from '../../../pages/user/register/Register'
+import Cart from '../../../pages/user/cart/Cart'
+import { CartContext } from '../context/CartContext'
+
+
 
 
 
@@ -10,9 +14,13 @@ import register from '../../../pages/user/register/Register'
 
 
 export default function CustomNavbar() {
-  return (
-   
 
+
+  const {cartCount} = useContext(CartContext);
+
+
+
+  return (
      <header className="header_area">
         
         <div className="main_menu">
@@ -104,9 +112,11 @@ export default function CustomNavbar() {
                       </li>
     
                       <li className="nav-item">
-                        <a href="#" className="icons">
-                          <i className="ti-shopping-cart"></i>
-                        </a>
+                        <Link  to={'Cart'} className="icons">
+                          <i className="ti-shopping-cart">
+                          <span className=" top-0 start-100 translate-middle badge rounded-pill bg-danger">{cartCount}</span>
+                          </i>
+                        </Link>
                       </li>
     
                       <li className="nav-item">

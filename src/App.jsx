@@ -13,6 +13,12 @@ import Products from './pages/user/products/Products'
 import CategoryProducts from './pages/user/products/CategoryProducts'
 import ProductDetails from './pages/user/products/ProductDetails'
 import Cart from './pages/user/cart/Cart'
+import ProtectedRoute from './components/user/protectedRoute/ProtectedRoute'
+import { CartContextProvider } from './components/user/context/cartContext'
+
+
+
+
 
 
 
@@ -45,7 +51,11 @@ export default function App() {
           { path: '/categories/:categoryId', element: <CategoryProducts /> },
           { path: 'products', element: <Products /> },
           { path: 'product/:productId', element: <ProductDetails /> },
-          { path: 'cart', element: <Cart /> },
+          { path: 'cart', element:
+            <ProtectedRoute>
+            <Cart /> 
+            </ProtectedRoute>
+          },
 
         ],
       },
@@ -60,11 +70,10 @@ export default function App() {
 
   return (
     <>
-    
+     <CartContextProvider>
     <ToastContainer />
     <RouterProvider router={router} />
-    
-    
+    </CartContextProvider>
     </>
   )
 }
