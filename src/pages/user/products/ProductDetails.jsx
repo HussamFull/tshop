@@ -1,18 +1,21 @@
 import React from "react";
-
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bounce, toast, Flip } from "react-toastify";
-
 import { Link } from "react-router-dom";
-
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../../../components/user/context/CartContext.jsx";
+
+
+
 
 export default function ProductDetails() {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
+  const { cartCount, setCartCount } = useContext(CartContext);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
@@ -56,6 +59,7 @@ export default function ProductDetails() {
           theme: "dark",
           transition: Flip,
         });
+        setCartCount(cartCount + 1);
         navigate("/cart");
       }
       console.log(response.data);

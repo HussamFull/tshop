@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 
 
 
+
+
+
+
 export default function Cart() {
 
   const [cart , setCart] = useState(null);
@@ -47,8 +51,43 @@ export default function Cart() {
 
 
 
+  const incQty = async (productId)=>{
 
+    const token = localStorage.getItem('userToken');
+    const response = await axios.patch(`https://ecommerce-node4.onrender.com/cart/incraseQuantity`,
+    {
+      productId : productId
+    },
+    {
+      headers: {
+        Authorization: `Tariq__${token}`,
+      },
+    }
+    );
+    getCart();
+    console.log('Incremented');
+    console.log(productId);
+  }
 
+  //incQtym
+
+  const incQtym = async (productId)=>{
+
+    const token = localStorage.getItem('userToken');
+    const response = await axios.patch(`https://ecommerce-node4.onrender.com/cart/decraseQuantity`,
+    {
+      productId : productId
+    },
+    {
+      headers: {
+        Authorization: `Tariq__${token}`,
+      },
+    }
+    );
+    getCart();
+    console.log('Incremented');
+    console.log(productId);
+  }
 
 
 
@@ -129,17 +168,20 @@ export default function Cart() {
                 <h5>$ {item.details.finalPrice}</h5>
               </td>
               <td>
-              {item.quantity}
-               {/* <div className="product_count">
-                   <input type="text" name="qty" id="sst" maxLength={12} defaultValue={1} title="Quantity:" className="input-text qty" /> 
+              
+               <div className="gap-2 d-md-flex justify-content-center">
+               
+                 
 
-                  <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;" className="increase items-count" type="button">
-                    <i className="lnr lnr-chevron-up" />
+                  <button onClick={()=>incQty(item.productId)}  className="main_btn"  >   
+                    +
                   </button>
-                  <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) && sst > 0 ) result.value--;return false;" className="reduced items-count" type="button">
-                    <i className="lnr lnr-chevron-down" />
-                  </button>  
-                </div>*/}
+                  {item.quantity}
+                  <button onClick={()=>incQtym(item.productId)} className="main_btn" > 
+                    -
+                  </button> 
+                   
+                </div>
               </td>
               <td>
                 <h5>$  {item.quantity * item.details.finalPrice}</h5>
