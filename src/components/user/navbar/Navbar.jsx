@@ -46,7 +46,6 @@ export default function CustomNavbar() {
                     <ul className="nav navbar-nav center_nav pull-right">
                       <li className="nav-item active">
                         <Link className="nav-link"  to={'/'} >Home</Link>
-                      
                       </li>
                       <li className="nav-item submenu dropdown">
                         <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -65,7 +64,7 @@ export default function CustomNavbar() {
                             <a className="nav-link" href="checkout.html">Product Checkout</a>
                           </li>
                           <li className="nav-item">
-                            <a className="nav-link" href="cart.html">Shopping Cart</a>
+                             <Link  to={'Cart'} className="nav-link" >Shopping Cart</Link>
                           </li>
                         </ul>
                       </li>
@@ -124,7 +123,28 @@ export default function CustomNavbar() {
     
                       <li className="nav-item">
                         <a href="#" className="icons">
-                          <i className="ti-user" aria-hidden="true"></i>
+                      
+                            
+
+                          <li className="nav-item submenu dropdown">
+                        <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                          aria-expanded="false">
+                          <i className="ti-user" aria-hidden="true"> </i>
+                          </a>
+                        <ul className="dropdown-menu">
+                          <li className="nav-item">
+                            <Link className="nav-link" to={'Profile'}>Profile</Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link className="nav-link" to={'#'}>Logout</Link>
+                          </li>
+                        </ul>
+                      </li>
+                        
+
+
+
+                         
                         </a>
                       </li>
     

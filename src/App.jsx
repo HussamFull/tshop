@@ -17,6 +17,7 @@ import ProtectedRoute from './components/user/protectedRoute/ProtectedRoute'
 
 //import { CartContextProvider } from './components/user/context/cartContext'
 import { CartContextProvider } from './components/user/context/CartContext'
+import Profile from './pages/user/profile/Profile'
 
 export default function App() {
 
@@ -49,6 +50,7 @@ export default function App() {
             <Cart /> 
             </ProtectedRoute>
           },
+          { path: 'profile', element: <Profile /> },
 
         ],
       },
