@@ -14,16 +14,9 @@ import CategoryProducts from './pages/user/products/CategoryProducts'
 import ProductDetails from './pages/user/products/ProductDetails'
 import Cart from './pages/user/cart/Cart'
 import ProtectedRoute from './components/user/protectedRoute/ProtectedRoute'
-import { CartContextProvider } from './components/user/context/cartContext'
 
-
-
-
-
-
-
-
-
+//import { CartContextProvider } from './components/user/context/cartContext'
+import { CartContextProvider } from './components/user/context/CartContext'
 
 export default function App() {
 
