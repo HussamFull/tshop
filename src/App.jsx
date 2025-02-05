@@ -15,9 +15,16 @@ import ProductDetails from './pages/user/products/ProductDetails'
 import Cart from './pages/user/cart/Cart'
 import ProtectedRoute from './components/user/protectedRoute/ProtectedRoute'
 
-//import { CartContextProvider } from './components/user/context/cartContext'
+
+
 import { CartContextProvider } from './components/user/context/CartContext'
+import { UserContextProvider } from './components/user/context/UserContext'
+
 import Profile from './pages/user/profile/Profile'
+import Info from './pages/user/profile/info'
+import Orders from './pages/user/profile/Orders'
+import { UserContext } from './components/user/context/UserContext'
+
 
 export default function App() {
 
@@ -26,7 +33,10 @@ export default function App() {
     [
       {
         path:'/auth',
-        element: <AuthLayout />,
+        element:
+        
+            <AuthLayout />,
+        
         children: [
           { path: 'login', element: <Login /> },
           { path: 'register', element: <Register /> },
@@ -38,7 +48,13 @@ export default function App() {
       },
       {
         path: '/',
-        element: <UserLayout />,
+        element:
+        <UserContextProvider>
+        <CartContextProvider>
+            <UserLayout />,
+        </CartContextProvider>
+        </UserContextProvider>
+        ,
         children: [
           { path: '/', element: <Home /> },
           { path: 'categories', element: <Categories /> },
@@ -50,7 +66,17 @@ export default function App() {
             <Cart /> 
             </ProtectedRoute>
           },
-          { path: 'profile', element: <Profile /> },
+          {
+             path: 'profile', 
+             element: <Profile /> ,
+             children: [
+               { path: 'info', element: <Info /> },
+               { path: 'orders', element: <Orders /> },
+             ],
+             // exact: true, // if you want to make it exact match only for the profile page with userId, uncomment this line.
+            
+            
+            },
 
         ],
       },
@@ -65,10 +91,10 @@ export default function App() {
 
   return (
     <>
-     <CartContextProvider>
+     
     <ToastContainer />
     <RouterProvider router={router} />
-    </CartContextProvider>
+    
     </>
   )
 }

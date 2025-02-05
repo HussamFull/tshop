@@ -1,6 +1,10 @@
 import React from 'react'
 import CuostmSidebar from '../../../components/user/sidebar/CustomSidebar'
-import { Badge } from 'react-bootstrap';
+import { Badge, Container } from 'react-bootstrap';
+import { Outlet } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap';
+
+
 
 
 
@@ -8,16 +12,22 @@ import { Badge } from 'react-bootstrap';
 export default function Profile() {
   return (
     <>
-        
-        <h5>
+
+
+      <Container fluid className="p-0  ">
+      <h5>
         <Badge bg="success">Profile</Badge>
         </h5>
-        <CuostmSidebar />
-        
-
-    
-    
-    
+        <Row>
+          <Col md={2} >
+          <CuostmSidebar />
+           
+          </Col>
+          <Col md={8} >
+            <Outlet />
+          </Col>
+        </Row>
+        </Container>    
     </>
   )
 }

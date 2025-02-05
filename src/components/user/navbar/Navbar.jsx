@@ -6,12 +6,32 @@ import register from '../../../pages/user/register/Register'
 import Cart from '../../../pages/user/cart/Cart'
 import { CartContext } from '../context/CartContext'
 
+import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
+
+
+
+
 export default function CustomNavbar() {
+
+  const navigate = useNavigate();
 
 
   const {cartCount} = useContext(CartContext);
+  const {user , loading} = useContext(UserContext);
+
+
+
+
 
   const logout = ()=>{
+    localStorage.removeItem('userToken');
+
+    setUser(null);
+
+
+
+    navigate('/auth/login');
     
 
   }
@@ -130,7 +150,7 @@ export default function CustomNavbar() {
                           </a>
                         <ul className="dropdown-menu">
                           <li className="nav-item">
-                            <Link className="nav-link" to={'Profile'}>Profile</Link>
+                            <Link className="nav-link" to={'Profile'}>Welcome { loading?"Loading..." : user.userName}</Link>
                           </li>
                           <li className="nav-item">
                             <Link className="nav-link" to={logout}>Logout</Link>
