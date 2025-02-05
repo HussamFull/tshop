@@ -2,13 +2,29 @@ import React from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import style from "./sidebar.module.css";
+import { FaExpandArrowsAlt } from "react-icons/fa";
+
+import { useState } from "react";
+
+
+import { FaCompressArrowsAlt } from "react-icons/fa";
+
+
 
 export default function CustomSidebar() {
+   const [isCollapsed, setIsCollapsed] = useState(false);
+  const toggleCollapsed = () => {
+    setIsCollapsed(!isCollapsed);
+  }
   return (
     <>
      
      
-     <Sidebar className={style.sidebar}>
+     <Sidebar collapsed={isCollapsed} className={style.sidebar}>
+    
+    {isCollapsed ?  <FaExpandArrowsAlt    onClick={toggleCollapsed} /> : < FaCompressArrowsAlt  onClick={toggleCollapsed} />}
+
+
   <Menu     
  className={style.sidebar}
   >

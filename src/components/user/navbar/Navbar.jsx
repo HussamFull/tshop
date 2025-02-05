@@ -6,20 +6,17 @@ import register from '../../../pages/user/register/Register'
 import Cart from '../../../pages/user/cart/Cart'
 import { CartContext } from '../context/CartContext'
 
-
-
-
-
-
-
-
-
-
-
 export default function CustomNavbar() {
 
 
   const {cartCount} = useContext(CartContext);
+
+  const logout = ()=>{
+    
+
+  }
+
+
 
 
 
@@ -136,7 +133,7 @@ export default function CustomNavbar() {
                             <Link className="nav-link" to={'Profile'}>Profile</Link>
                           </li>
                           <li className="nav-item">
-                            <Link className="nav-link" to={'#'}>Logout</Link>
+                            <Link className="nav-link" to={logout}>Logout</Link>
                           </li>
                         </ul>
                       </li>

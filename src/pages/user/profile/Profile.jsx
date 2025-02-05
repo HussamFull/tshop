@@ -1,5 +1,6 @@
 import React from 'react'
 import CuostmSidebar from '../../../components/user/sidebar/CustomSidebar'
+import { Badge } from 'react-bootstrap';
 
 
 
@@ -7,7 +8,10 @@ import CuostmSidebar from '../../../components/user/sidebar/CustomSidebar'
 export default function Profile() {
   return (
     <>
-        <h1>Profile</h1>
+        
+        <h5>
+        <Badge bg="success">Profile</Badge>
+        </h5>
         <CuostmSidebar />
         
 
