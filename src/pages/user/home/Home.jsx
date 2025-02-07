@@ -1,12 +1,18 @@
 import React from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import Category from '../../../components/user/category/Category'
 
 
 
 export default function Home() {
   return (
     <>
+
+    
+
+
+   
     
  
 
@@ -74,9 +80,13 @@ export default function Home() {
     </div>
   </section>
   {/* End feature Area */}
+
+ 
+  {/*================ Start Category Area =================*/}
+  <Category />
     
     
-    
+  
     
     </>
   )
