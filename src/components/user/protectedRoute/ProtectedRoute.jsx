@@ -4,11 +4,15 @@ import { toast } from "react-toastify";
 import { Flip } from "react-toastify";
 import { UserContext } from "../context/UserContext.jsx";
 
+import { useState } from "react";
+//import Loading from "../loading/Loading.jsx";
+
 export default function ProtectedRoute({ children }) {
   const userToken = localStorage.getItem("userToken");
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
+  
+   //const [loading, setLoading] = useState(true);
+
+
 
   if (!userToken) {
     toast.success("You cannot access the cart page unless you login !", {

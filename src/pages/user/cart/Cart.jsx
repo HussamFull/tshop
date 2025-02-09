@@ -2,11 +2,12 @@ import React from 'react'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Loading from '../../../components/user/loading/Loading';
 
 export default function Cart() {
 
   const [cart , setCart] = useState(null);
-  const [isLoading , setIsLoading] = useState(true);
+  const [isLoading , setIsLoading] = useState(false);
   
   const getCart = async ()=>{
     try {
@@ -33,14 +34,14 @@ export default function Cart() {
   useEffect(() => {
     getCart();
   }, []);
-  
-  if(isLoading){
-    return <div>Loading...</div>
-  }
-  
   if(!cart){
     return <div>No products in cart</div>
   }
+
+  if(isLoading){
+    return <div><Loading /> </div>
+  }
+  
 
 
 

@@ -7,6 +7,8 @@ import CartContextProvider from '../components/user/context/CartContext'
 
 
 export default function AuthLayout() {
+
+  
   return (
     <>
    {/* <CustomNavbar /> */}

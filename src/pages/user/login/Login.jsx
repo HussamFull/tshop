@@ -11,7 +11,6 @@ import CustomNavbar from "../../../components/user/navbar/Navbar";
 
 export default function Login() {
   const [isLoding, setIsLoding] = useState(false);
-
   const [serverError, setServerError] = useState("");
 
   const {
@@ -47,7 +46,7 @@ export default function Login() {
       }
       console.log(response);
     } catch (error) {
-      if (error.response.status == 409) {
+      if ( error.response.status == 409) {
         toast.error("Email already in use!", {
           position: "top-right",
           autoClose: 5000,

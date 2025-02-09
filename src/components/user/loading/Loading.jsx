@@ -6,7 +6,6 @@ export default function Loading() {
     return (
         <>
             <Placeholder xs={12} />
-
             <Placeholder xs={2} bg="primary" />
             <Placeholder xs={4} bg="secondary" />
             <Placeholder xs={6} bg="success" />

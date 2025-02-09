@@ -1,8 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+
 export const CartContext = createContext();
 export const CartContextProvider = ({ children }) => {
   const [cartCount, setCartCount] = useState(0);
+  //const [loading, setLoading] = useState(true);
   useEffect(() => {
     getCart();
   }, []);
@@ -19,9 +21,13 @@ export const CartContextProvider = ({ children }) => {
       );
       setCartCount(response.data.count);
       console.log(response.data.count);
+      //setLoading(false);
     } catch (error) {
       console.log("Error fetching cart:", error);
       setCartCount(0);
+    }
+    finally {
+      //setLoading(false);
     }
   };
   return (
