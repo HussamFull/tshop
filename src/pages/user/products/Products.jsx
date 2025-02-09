@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import Loading from '../../../components/user/loading/Loading';
 
 
 
@@ -14,7 +15,7 @@ export default function Products() {
 
     const getProducts = async () => {
         try {
-            const {data} = await axios.get(`https://ecommerce-node4.onrender.com/products?page=1&limit=10`);
+            const {data} = await axios.get(`${import.meta.env.VITE_BURL}/products?page=1&limit=10`);
             console.log(data.products);
             setProducts(data.products);
 
@@ -41,8 +42,8 @@ export default function Products() {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>
-    }
+       return <div> <Loading /> </div>;
+     }
 
    
 

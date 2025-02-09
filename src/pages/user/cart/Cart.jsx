@@ -3,12 +3,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-
-
-
-
-
-
 export default function Cart() {
 
   const [cart , setCart] = useState(null);
@@ -17,7 +11,7 @@ export default function Cart() {
   const getCart = async ()=>{
     try {
       const token = localStorage.getItem('userToken');
-      const response = await axios.get('https://ecommerce-node4.onrender.com/cart',
+      const response = await axios.get(`${import.meta.env.VITE_BURL}/cart`,
       {
         headers: {
                      Authorization: `Tariq__${token}`,
@@ -51,10 +45,11 @@ export default function Cart() {
 
 
 
+
   const incQty = async (productId)=>{
 
     const token = localStorage.getItem('userToken');
-    const response = await axios.patch(`https://ecommerce-node4.onrender.com/cart/incraseQuantity`,
+    const response = await axios.patch(`${import.meta.env.VITE_BURL}/cart/incraseQuantity`,
     {
       productId : productId
     },
@@ -64,7 +59,21 @@ export default function Cart() {
       },
     }
     );
-    getCart();
+    setCart( prevCart =>{ 
+      return prevCart.map(item =>{
+        if(item.productId == productId){
+          return {
+            ...item,
+            quantity: item.quantity + 1
+          }
+        }
+        return item;
+      }) 
+    }
+
+    );
+  
+    
     console.log('Incremented');
     console.log(productId);
   }
@@ -74,7 +83,7 @@ export default function Cart() {
   const incQtym = async (productId)=>{
 
     const token = localStorage.getItem('userToken');
-    const response = await axios.patch(`https://ecommerce-node4.onrender.com/cart/decraseQuantity`,
+    const response = await axios.patch(`${import.meta.env.VITE_BURL}/cart/decraseQuantity`,
     {
       productId : productId
     },
@@ -84,7 +93,19 @@ export default function Cart() {
       },
     }
     );
-    getCart();
+    setCart( prevCartm =>{ 
+      return prevCartm.map(item =>{
+        if(item.productId == productId){
+          return {
+            ...item,
+            quantity: item.quantity - 1
+          }
+        }
+        return item;
+      }) 
+    }
+
+    );
     console.log('Incremented');
     console.log(productId);
   }

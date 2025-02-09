@@ -3,23 +3,25 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
+
 export const  UserContext = createContext() 
 
 export const UserContextProvider = ({children}) => {
 
-    useEffect(() => {
-        getUser();
-    }, []);
-
-    const [user, setUser] = useState(null );
-
+ 
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     
+
+    useEffect(() => {
+      getUser();
+  }, []);
+
     const getUser = async () => {
-        const token = localStorage.getItem("userToken");
+        const token = localStorage.getItem('userToken');
         try {
              const response = await axios.get(
-          "https://ecommerce-node4.onrender.com/user/profile",
+          `${import.meta.env.VITE_BURL}/user/profile`,
           {
             headers: {
               Authorization: `Tariq__${token}`,
@@ -37,11 +39,8 @@ export const UserContextProvider = ({children}) => {
 
     }
 
-
-
-
     return (
-        <UserContext.Provider value={{  user , setUser, loading }}>
+        <UserContext.Provider value={{  user, loading, setUser }}>
             {children}
         </UserContext.Provider>
     )

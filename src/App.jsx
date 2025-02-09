@@ -6,10 +6,12 @@ import DashboardLayout from './layouts/DashboardLayout'
 import Login from './pages/user/login/Login'
 import Register from './pages/user/register/Register'
 import { ToastContainer } from 'react-toastify';
+
 import Home from './pages/user/home/Home'
 import UserLayout from './layouts/UserLayout'
 import Categories from './pages/user/category/Categories'
 import Products from './pages/user/products/Products'
+
 import CategoryProducts from './pages/user/products/CategoryProducts'
 import ProductDetails from './pages/user/products/ProductDetails'
 import Cart from './pages/user/cart/Cart'
@@ -17,13 +19,20 @@ import ProtectedRoute from './components/user/protectedRoute/ProtectedRoute'
 
 
 
+
 import { CartContextProvider } from './components/user/context/CartContext'
 import { UserContextProvider } from './components/user/context/UserContext'
 
+
 import Profile from './pages/user/profile/Profile'
-import Info from './pages/user/profile/info'
+import Info from './pages/user/profile/Info'
 import Orders from './pages/user/profile/Orders'
-import { UserContext } from './components/user/context/UserContext'
+import AuthProtectedRoute from './components/user/AuthProtectedRoute/AuthProtectedRoute'
+
+
+
+
+
 
 
 export default function App() {
@@ -33,10 +42,10 @@ export default function App() {
     [
       {
         path:'/auth',
-        element:
-        
-            <AuthLayout />,
-        
+        element: 
+        <AuthProtectedRoute>
+        <AuthLayout />
+        </AuthProtectedRoute>,
         children: [
           { path: 'login', element: <Login /> },
           { path: 'register', element: <Register /> },
@@ -51,7 +60,9 @@ export default function App() {
         element:
         <UserContextProvider>
         <CartContextProvider>
+        
             <UserLayout />,
+        
         </CartContextProvider>
         </UserContextProvider>
         ,
@@ -73,7 +84,6 @@ export default function App() {
                { path: 'info', element: <Info /> },
                { path: 'orders', element: <Orders /> },
              ],
-             // exact: true, // if you want to make it exact match only for the profile page with userId, uncomment this line.
             
             
             },

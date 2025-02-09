@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import Loading from '../../../components/user/loading/Loading';
 
 
 
@@ -14,13 +15,13 @@ export default function Categories() {
 
     const getCategories = async () => {
         try {
-            const { data } = await axios.get(`https://ecommerce-node4.onrender.com/categories/active`);
+            const { data } = await axios.get(`${import.meta.env.VITE_BURL}/categories/active`);
             console.log(data);
             setCategories(data.categories);
 
 
         } catch (error) {
-            console.error(error);
+            console.log(error);
             setError(error.message);
             
 
@@ -39,8 +40,8 @@ export default function Categories() {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>
-    }
+       return <div> <Loading /> </div>;
+     }
     if (error) {
         return <div>Error: {error}</div>
     }

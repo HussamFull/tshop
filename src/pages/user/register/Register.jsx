@@ -33,7 +33,7 @@ export default function Register() {
   const registerUser = async (value) => {
     setIsLoding(true);
     try {
-      const response = await axios.post(`https://ecommerce-node4.onrender.com/auth/signup`, value);
+      const response = await axios.post(`${import.meta.env.VITE_BURL}/auth/signup`, value);
       if (response.status == 201) {
         toast.success('Please check your Email!', {
           position: "top-right",

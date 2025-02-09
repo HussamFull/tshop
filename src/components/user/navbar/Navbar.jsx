@@ -1,46 +1,23 @@
 import React, { useContext } from 'react'
-import { Container, Nav, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import login  from '../../../pages/user/login/Login'
-import register from '../../../pages/user/register/Register'
-import Cart from '../../../pages/user/cart/Cart'
-import { CartContext } from '../context/CartContext'
-
+import { CartContext } from '../context/CartContext.jsx';
 import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../context/UserContext'
-
-
-
-
+import { UserContext } from '../context/UserContext.jsx';
 export default function CustomNavbar() {
-
+  //const { cartCount, setCartCount } = useContext(CartContext);
   const navigate = useNavigate();
+  const { cartCount } = useContext(CartContext); // استخدام {} للحصول على cartCount
+  console.log(cartCount);
+  const { user, loading, setUser } = useContext(UserContext); // استخدام {} للحصول على user, loading, setUser
 
-
-  const {cartCount} = useContext(CartContext);
-  const {user , loading} = useContext(UserContext);
-
-
-
-
-
-  const logout = ()=>{
+  const logout = () => {
     localStorage.removeItem('userToken');
-
     setUser(null);
-
-
-
-    navigate('/auth/login');
-    
-
-  }
-
-
-
-
+    navigate('/auth/login'); // استخدام { replace: true } لمنع الرجوع
+  };
 
   return (
+    <>
      <header className="header_area">
         
         <div className="main_menu">
@@ -97,19 +74,7 @@ export default function CustomNavbar() {
                           </li>
                         </ul>
                       </li>
-                      {/* <!-- 
-                      <li className="nav-item submenu dropdown">
-                        <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                          aria-expanded="false">Pages</a>
-                        <ul className="dropdown-menu">
-                          <li className="nav-item">
-                            <a className="nav-link" href="tracking.html">Tracking</a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="nav-link" href="elements.html">Elements</a>
-                          </li>
-                        </ul>
-                      </li> --> */}
+                     
                       <li className="nav-item">
                         <a className="nav-link" href="contact.html">Contact</a>
                       </li>
@@ -150,10 +115,12 @@ export default function CustomNavbar() {
                           </a>
                         <ul className="dropdown-menu">
                           <li className="nav-item">
-                            <Link className="nav-link" to={'Profile'}>Welcome { loading?"Loading..." : user.userName}</Link>
+                            <Link className="nav-link" to={'/profile'}>
+                                 Welcome { loading? "Loading..." : user?.userName}
+                            </Link>
                           </li>
                           <li className="nav-item">
-                            <Link className="nav-link" to={logout}>Logout</Link>
+                            <Link className="nav-link"  onClick={logout} >Logout</Link>
                           </li>
                         </ul>
                       </li>
@@ -178,5 +145,6 @@ export default function CustomNavbar() {
           </div>
         </div>
       </header>
+    </>
   )
 }

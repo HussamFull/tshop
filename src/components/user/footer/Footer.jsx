@@ -47,7 +47,7 @@ export default function Footer() {
         <h4>Newsletter</h4>
         <p>You can trust us. we only send promo offers,</p>
         <div className="form-wrap" id="mc_embed_signup">
-          <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01" method="get" className="form-inline">
+          <form target="_blank" action="" method="get" className="form-inline">
             <input className="form-control" name="EMAIL" placeholder="Your Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address '" required type="email" />
             <button className="click-btn btn btn-default">Subscribe</button>
             <div style={{position: 'absolute', left: '-5000px'}}>

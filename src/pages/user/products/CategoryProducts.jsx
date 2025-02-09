@@ -2,13 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-
-
-
-
-
 import { Link } from "react-router-dom";
+import Loading from "../../../components/user/loading/Loading";
 
 export default function CategoryProducts() {
   const { categoryId } = useParams();
@@ -20,7 +15,7 @@ export default function CategoryProducts() {
   const getProducts = async () => {
     try {
       const { data } = await axios.get(
-        `https://ecommerce-node4.onrender.com/products/category/${categoryId}`
+        `${import.meta.env.VITE_BURL}/products/category/${categoryId}`
       );
       console.log(data.products);
       setProducts(data.products);
@@ -37,8 +32,8 @@ export default function CategoryProducts() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
-  }
+     return <div> <Loading /> </div>;
+   }
 
   return (
     <>

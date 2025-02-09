@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../../../components/user/context/CartContext.jsx";
+import Loading from "../../../components/user/loading/Loading.jsx";
 
 
 
@@ -22,7 +23,7 @@ export default function ProductDetails() {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `https://ecommerce-node4.onrender.com/products/${productId}`
+        `${import.meta.env.VITE_BURL}/products/${productId}`
       );
       setProduct(data.product);
     } catch (error) {
@@ -37,7 +38,7 @@ export default function ProductDetails() {
     try {
       const token = localStorage.getItem("userToken");
       const response = await axios.post(
-        `https://ecommerce-node4.onrender.com/cart`,
+        `${import.meta.env.VITE_BURL}/cart`,
         {
           productId: productId,
         },
@@ -74,8 +75,8 @@ export default function ProductDetails() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
-  }
+     return <div> <Loading /> </div>;
+   }
 
   return (
     <>
