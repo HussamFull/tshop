@@ -46,7 +46,7 @@ export default function Register() {
           theme: "dark",
           transition: Bounce,
         });
-        navigate('/login');
+        navigate('/auth/login');
       }
       console.log(response);
     } catch (error) {
