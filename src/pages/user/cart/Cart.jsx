@@ -97,10 +97,14 @@ export default function Cart() {
     setCart( prevCartm =>{ 
       return prevCartm.map(item =>{
         if(item.productId == productId){
-          return {
-            ...item,
-            quantity: item.quantity - 1
-          }
+
+           // التحقق من أن الكمية ليست 0 قبل الإنقاص
+                const newQuantity = item.quantity > 0 ? item.quantity - 1 : 0;
+                return {
+                    ...item,
+                    quantity: newQuantity
+                };
+                
         }
         return item;
       }) 
