@@ -2,3 +2,24 @@ a{
     text-decoration: none;
     color: #000;
   }
+  
+  .syria-shop {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: #fff;
+    
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .syria {
+    color: #71cd14; /* لون أخضر */
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .shop {
+    color: #ffc107; /* لون أصفر */
+    font-size: 20px;
+    font-weight: normal;
+  }

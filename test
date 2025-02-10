@@ -117,3 +117,124 @@
     </div>
   </div>
 </div>
+
+<> 
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const Cart = () => {
+  const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem('cart'));
+    if (savedCart) {
+      setCart(savedCart);
+    }
+  }, []);
+
+  const incQtym = async (productId) => {
+    const token = localStorage.getItem('userToken');
+
+    const response = await axios.patch(`${import.meta.env.VITE_BURL}/cart/decraseQuantity`,
+    {
+      productId: productId
+    },
+    {
+      headers: {
+        Authorization: `Tariq__${token}`
+      },
+    });
+
+    setCart(prevCart => {
+      const updatedCart = prevCart.map(item => {
+        if (item.productId === productId) {
+          const newQuantity = item.quantity > 0 ? item.quantity - 1 : 0;
+          return {
+            ...item,
+            quantity: newQuantity
+          };
+        }
+        return item;
+      });
+
+      // Save updated cart to local storage
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      return updatedCart;
+    });
+    
+    console.log('Incremented');
+    console.log(productId);
+  };
+
+  return (
+    <div>
+      {/* Your cart component logic here */}
+    </div>
+  );
+};
+
+export default Cart;
+</>
+
+
+
+
+
+const deleteCart = async () => {
+   
+  try {
+    const token = localStorage.getItem("userToken");
+    const { data } = await axios.patch(
+      `${import.meta.env.VITE_BURL}/cart/clear`,
+    
+      {
+        headers: {
+          Authorization: `Tariq__${token}`,
+        },
+      }
+    );
+    console.log(data);
+    if (data.status === 200 || data.message === "success" || data.success === true) {
+      toast.success("Cart deleted successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+      navigate("/");
+    } else {
+      // التعامل مع حالات النجاح الأخرى أو حالات الخطأ من الخادم
+      console.error("Unexpected response:", data);
+      toast.error("Failed to delete cart. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+  } catch (error) {
+    console.error("Error deleting cart:", error);
+    toast.error("An error occurred while deleting the cart.", { // رسالة خطأ عامة للمستخدم
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+  }
+};

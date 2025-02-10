@@ -29,21 +29,9 @@ export default function Login() {
       );
 
       localStorage.setItem("userToken", response.data.token);
+      navigate("/");
 
-      if (response.status == 200) {
-        toast.success("Welcome to Tshop !", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
-        navigate("/");
-      }
+     
       console.log(response);
     } catch (error) {
       if ( error.response.status == 409) {

@@ -1,12 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CartContext } from '../context/CartContext.jsx';
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext.jsx';
+
 export default function CustomNavbar() {
   //const { cartCount, setCartCount } = useContext(CartContext);
+  
   const navigate = useNavigate();
-  const { cartCount } = useContext(CartContext); // استخدام {} للحصول على cartCount
+  const { cartCount , setCartCount } = useContext(CartContext); // استخدام {} للحصول على cartCount
+  
   console.log(cartCount);
   const { user, loading, setUser } = useContext(UserContext); // استخدام {} للحصول على user, loading, setUser
 
@@ -25,7 +28,13 @@ export default function CustomNavbar() {
             <nav className="navbar navbar-expand-lg navbar-light w-100">
               {/* Brand and toggle get grouped for better mobile display */}
               <Link className="navbar-brand logo_h" to={'/'}>
-                <img src="./assets/img/logo.png" alt="" />
+              
+              <p className="banner_inner"></p>
+              <h3 className="syria-shop">
+  <span className="syria">Syria </span> 
+  <span className="shop">Shop</span>
+</h3>
+               {/*  <img src="./assets/img/logo.png" alt="" /> */}
               </Link>
               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +107,7 @@ export default function CustomNavbar() {
                       <li className="nav-item">
                         <Link  to={'Cart'} className="icons">
                           <i className="ti-shopping-cart">
-                          <span className=" top-0 start-100 translate-middle badge rounded-pill bg-danger">{cartCount}</span>
+                          <span className=" top-0 start-100 translate-middle badge rounded-pill bg-danger"> {cartCount || 0} </span>
                           </i>
                         </Link>
                       </li>
