@@ -2,8 +2,28 @@
 
     background-color: #050505;
     color: #ffffff;
-    height: 90vh;
+    height: 80vh;
     width: 250px;
+    z-index: 1000;
+    top: 0px;
+    
+
 }
- 
+
   
+ 
+.collapseBtn {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 576px) {
+    .sidebar {
+      
+      top: 0;
+      left: 0;
+    }
+  }

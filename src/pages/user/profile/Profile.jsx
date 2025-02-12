@@ -14,13 +14,15 @@ export default function Profile() {
     <>
 
 
-      <Container fluid className="p-0  ">
+      <Container  fluid className="p-0  " >
       <h5>
         <Badge bg="success">Profile</Badge>
         </h5>
-        <Row>
-          <Col md={2} >
+        <Row >
+        
+          <Col md={2}  >
           <CuostmSidebar />
+          
            
           </Col>
           <Col md={8} >
