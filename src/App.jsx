@@ -28,6 +28,7 @@ import Profile from './pages/user/profile/Profile'
 import Info from './pages/user/profile/Info'
 import Orders from './pages/user/profile/Orders'
 import AuthProtectedRoute from './components/user/AuthProtectedRoute/AuthProtectedRoute'
+import ImageProfile from './pages/user/profile/ImageProfile'
 
 
 
@@ -84,6 +85,7 @@ export default function App() {
              children: [
                { path: 'info', element: <Info /> },
                { path: 'orders', element: <Orders /> },
+               { path: 'imageProfile', element: <ImageProfile /> },
              ],
             
             

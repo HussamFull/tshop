@@ -20,12 +20,12 @@ export default function Profile() {
         </h5>
         <Row >
         
-          <Col md={2}  >
+          <Col md={3}  >
           <CuostmSidebar />
           
            
           </Col>
-          <Col md={8} >
+          <Col md={7} >
             <Outlet />
           </Col>
         </Row>

@@ -82,7 +82,7 @@ export default function CustomSidebar() {
             
           > 
           <MenuItem icon={<FaUser />} component={<Link to="/profile/info" />}>info Profil</MenuItem>
-            <MenuItem icon={<FaEnvelope />}>Postfach</MenuItem>
+          <MenuItem icon={<FaEnvelope />} component={<Link to="/profile/imageProfile" />}>image Profil</MenuItem>
             <MenuItem icon={<FaCog />}>Kontoeinstellungen</MenuItem>
             
             <MenuItem icon={<FaKey />}>Anmeldungs-Management</MenuItem>
