@@ -14,11 +14,9 @@ export default function AuthLayout() {
    {/* <CustomNavbar /> */}
    <CartContextProvider>
       <UserContextProvider>
-           
-              <Outlet />
-           
+          <Outlet />
       </UserContextProvider>
-      </CartContextProvider>
+    </CartContextProvider>
     
     
     </>

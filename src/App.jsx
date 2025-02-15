@@ -29,6 +29,8 @@ import Info from './pages/user/profile/Info'
 import Orders from './pages/user/profile/Orders'
 import AuthProtectedRoute from './components/user/AuthProtectedRoute/AuthProtectedRoute'
 import ImageProfile from './pages/user/profile/ImageProfile'
+import CreateOrder from './pages/user/profile/CreateOrder'
+
 
 
 
@@ -46,7 +48,7 @@ export default function App() {
         path:'/auth',
         element: 
         <AuthProtectedRoute>
-        <AuthLayout />
+            <AuthLayout />
         </AuthProtectedRoute>,
         children: [
           { path: 'login', element: <Login /> },
@@ -62,9 +64,9 @@ export default function App() {
         element:
         <UserContextProvider>
         <CartContextProvider>
-        
+            
             <UserLayout />,
-        
+           
         </CartContextProvider>
         </UserContextProvider>
         ,
@@ -85,6 +87,7 @@ export default function App() {
              children: [
                { path: 'info', element: <Info /> },
                { path: 'orders', element: <Orders /> },
+               { path: 'createOrder', element: <CreateOrder /> },
                { path: 'imageProfile', element: <ImageProfile /> },
              ],
             

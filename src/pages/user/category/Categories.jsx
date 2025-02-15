@@ -60,7 +60,7 @@ export default function Categories() {
                                 <div className="row">
 
                                     {categories.map((category) => (
-                                        <div className="col-lg-4 col-md-6" key={category._id}>
+                                        <div className="col-lg-4 col-md-6" key={category._id}   >
                                             <div className="single-product">
                                                 <div className="product-img">
                                                     <img className="card-img" src={category.image.secure_url} alt />

@@ -7,12 +7,16 @@ import { Link } from "react-router-dom";
 import Loading from "../../../components/user/loading/Loading";
 
 import { toast, Flip, Bounce } from "react-toastify";
+import { Button, Card } from "react-bootstrap";
+import { FiShoppingCart } from "react-icons/fi";
 
 
 export default function Cart() {
-  const [cart, setCart] = useState(null);
+  const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [subtotal, setSubtotal] = useState(0);
+  const [items, setItems] = useState([]);
   const getCart = async () => {
     try {
       const token = localStorage.getItem("userToken");
@@ -31,10 +35,22 @@ export default function Cart() {
       setIsLoading(false);
     }
   };
+ // دالة حساب المجموع الكلي
+ const calculateSubtotal = (cartItems) => {
+  const total = cartItems.reduce((sum, item) => {
+    return sum + (item.quantity * item.details.finalPrice);
+  }, 0);
+  setSubtotal(total);
+};
+
 
   useEffect(() => {
     getCart();
-  }, []);
+      calculateSubtotal(cart);
+     
+    
+  }, [cart]);
+  
 
   const deleteItem = async (productId) => {
     try {
@@ -66,6 +82,8 @@ export default function Cart() {
           theme: "dark",
           transition: Bounce,
         });
+        setCart(prev => prev.filter(item => item.productId !== productId));
+        calculateSubtotal(cart.filter(item => item.productId !== productId)); // تحديث المجموع بعد الحذف
         navigate("/");
       }
 
@@ -77,6 +95,7 @@ export default function Cart() {
     }
 
     getCart();
+    
     // قم بتحديث سلة المشتريات بعد الحذف
   };
 
@@ -146,9 +165,7 @@ export default function Cart() {
   };
  
 
-  if (!cart) {
-    return <div>No products in cart</div>;
-  }
+
 
   if (isLoading) {
     return (
@@ -158,6 +175,48 @@ export default function Cart() {
     );
   }
 
+  if (cart.length === 0 && !isLoading) {
+    return    <div 
+    style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '70vh',
+      width: '100%'
+    }}
+  >
+    <Card 
+      border="success" 
+      style={{ 
+        width: '18rem', 
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+        textAlign: 'center'
+      }}
+    >
+      <Card.Header className="bg-success    text-white">
+        Empty Cart
+      </Card.Header>
+      <Card.Body>
+        <Card.Title style={{ margin: '1rem 0' }}>
+          <FiShoppingCart size={40} className="text-success" />
+        </Card.Title>
+        <Card.Text>
+          No products in cart.
+        </Card.Text>
+        <Button 
+          variant="success" 
+          as={Link} 
+          to="/"
+          style={{ marginTop: '1rem' }}
+        >
+          Start Shopping
+        </Button>
+      </Card.Body>
+    </Card>
+  </div>
+  
+  
+  }
   
 
 
@@ -199,35 +258,35 @@ export default function Cart() {
     /*  */
   }
   const incQtym = async (productId) => {
-    const token = localStorage.getItem("userToken");
-    const response = await axios.patch(
-      `${import.meta.env.VITE_BURL}/cart/decraseQuantity`,
-      {
-        productId: productId,
-      },
-      {
-        headers: {
-          Authorization: `Tariq__${token}`,
-        },
+    try {
+      const token = localStorage.getItem("userToken");
+      
+      // الحصول على العنصر الحالي من السلة
+      const currentItem = cart.find(item => item.productId === productId);
+      
+      // إذا كانت الكمية الحالية 1، قم بحذف العنصر بدلاً من الإنقاص
+      if (currentItem.quantity === 1) {
+        await deleteItem(productId); // استدعاء دالة الحذف
+        return;
       }
-    );
-    setCart((prevCartm) => {
-      return prevCartm.map((item) => {
-        if (item.productId == productId) {
-          // التحقق من أن الكمية ليست 0 قبل الإنقاص
-          const newQuantity = item.quantity > 0 ? item.quantity - 1 : 0;
-          return {
-            ...item,
-            quantity: newQuantity,
-          };
-        }
-        return item;
-      });
-    });
-    console.log("Incremented");
-    console.log(productId);
+  
+      // إذا كانت الكمية أكبر من 1، قم بالإنقاص
+      await axios.patch(
+        `${import.meta.env.VITE_BURL}/cart/decraseQuantity`,
+        { productId },
+        { headers: { Authorization: `Tariq__${token}` } }
+      );
+  
+      setCart(prev => prev.map(item => 
+        item.productId === productId 
+          ? { ...item, quantity: Math.max(1, item.quantity - 1) } // التأكد من عدم النزول تحت 1
+          : item
+      ));
+      
+    } catch (error) {
+      toast.error("Error updating quantity");
+    }
   };
-
   return (
     <>
       {/*================Home Banner Area =================*/}
@@ -316,7 +375,7 @@ export default function Cart() {
                         </div>
                       </td>
                       <td>
-                        <h5>$ {item.quantity * item.details.finalPrice}</h5>
+                        <h5>$ {(item.quantity * item.details.finalPrice).toFixed(2)}</h5>
                       </td>
                     </tr>
                   ))}
@@ -349,7 +408,7 @@ export default function Cart() {
                       <h5>Subtotal</h5>
                     </td>
                     <td>
-                      <h5>$2160.00</h5>
+                      <h5>${subtotal.toFixed(2)}</h5>
                     </td>
                   </tr>
                   <tr className="shipping_area">
@@ -379,16 +438,7 @@ export default function Cart() {
                           Calculate Shipping
                           <i className="fa fa-caret-down" aria-hidden="true" />
                         </h6>
-                        <select className="shipping_select">
-                          <option value={1}>Bangladesh</option>
-                          <option value={2}>India</option>
-                          <option value={4}>Pakistan</option>
-                        </select>
-                        <select className="shipping_select">
-                          <option value={1}>Select a State</option>
-                          <option value={2}>Select a State</option>
-                          <option value={4}>Select a State</option>
-                        </select>
+                     
                         <input type="text" placeholder="Postcode/Zipcode" />
                         <a className="gray_btn" href="#">
                           Update Details

@@ -59,6 +59,7 @@ export default function CustomSidebar() {
         {/* Header Section */}
         <div style={{ padding: '20px', backgroundColor: '#e8e8e8', display: 'flex', alignItems: 'center' ,  boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.1)', }}>
   <img
+    
     src="../assets/img/product/single-product/review-1.png" // استبدل هذا بمسار رابط الصورة أو مسارها المحلي
     alt="صورة الملف الشخصي"
     style={{
@@ -98,6 +99,7 @@ export default function CustomSidebar() {
             style={{ fontWeight: 'bold' }}
           > 
             <MenuItem icon={<LiaFirstOrder />} component={<Link to="/profile/orders" />}>Orders</MenuItem>
+            <MenuItem icon={<LiaFirstOrder />} component={<Link to="/profile/createOrder" />}>CreateOrder</MenuItem>
             
             <MenuItem>Status der Registrierung</MenuItem>
           </SubMenu>

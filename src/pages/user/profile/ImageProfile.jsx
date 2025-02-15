@@ -11,12 +11,6 @@ import { useNavigate } from'react-router-dom';
 import { useState } from 'react';
 
 
-
-
-
-
-
-
 export default function ImageProfile() {
     const [ imagePreview, setImagePreview ] = useState(null);
     const {register, handleSubmit, formState : {errors} } = useForm();
