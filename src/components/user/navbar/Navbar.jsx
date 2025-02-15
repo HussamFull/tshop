@@ -1,21 +1,31 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState ,useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { CartContext } from '../context/CartContext.jsx';
+import { CartContext, useCart } from '../context/CartContext.jsx';
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext.jsx';
 
 export default function CustomNavbar() {
-  //const { cartCount, setCartCount } = useContext(CartContext);
+  //const {  cartCount } = useContext(CartContext);
+  //const { cartCount } = useCart();
   
   const navigate = useNavigate();
-  const { cartCount , setCartCount } = useContext(CartContext); // استخدام {} للحصول على cartCount
+  const { cartCount,setCartCount  } = useContext(CartContext); // استخدام {} للحصول على cartCount
   
+  useEffect(() => {
+    // ��ذا كانت المتغيرات التي نحتا��ها ��ير متوفرة في التطبيق، يجب تحويلها ��لى متغيرات التي موجودة عندما تكون متوفرة
+    if (!cartCount) {
+      setCartCount(JSON.parse(localStorage.getItem('cartCount')) || 0);
+    }
+  }, []);
   console.log(cartCount);
   const { user, loading, setUser } = useContext(UserContext); // استخدام {} للحصول على user, loading, setUser
+
+
 
   const logout = () => {
     localStorage.removeItem('userToken');
     setUser(null);
+    
     navigate('/auth/login'); // استخدام { replace: true } لمنع الرجوع
   };
 
@@ -105,12 +115,16 @@ export default function CustomNavbar() {
                       </li>
     
                       <li className="nav-item">
-                        <Link  to={'Cart'} className="icons">
-                          <i className="ti-shopping-cart">
-                          <span className=" top-0 start-100 translate-middle badge rounded-pill bg-danger"> {cartCount || 0} </span>
-                          </i>
-                        </Link>
-                      </li>
+  <Link to={'/Cart'} className="icons">
+    <i className="ti-shopping-cart position-relative">
+      {cartCount > 0 && (
+        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {cartCount} 
+        </span>
+      )}
+    </i>
+  </Link>
+</li>
     
                       <li className="nav-item">
                         <a href="#" className="icons">

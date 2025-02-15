@@ -64,9 +64,10 @@ export default function App() {
         element:
         <UserContextProvider>
         <CartContextProvider>
-            
+        
+       
             <UserLayout />,
-           
+            
         </CartContextProvider>
         </UserContextProvider>
         ,

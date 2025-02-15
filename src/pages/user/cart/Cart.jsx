@@ -9,14 +9,24 @@ import Loading from "../../../components/user/loading/Loading";
 import { toast, Flip, Bounce } from "react-toastify";
 import { Button, Card } from "react-bootstrap";
 import { FiShoppingCart } from "react-icons/fi";
+import { useCart } from "../../../components/user/context/CartContext";
+
 
 
 export default function Cart() {
-  const [cart, setCart] = useState([]);
+  //const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [subtotal, setSubtotal] = useState(0);
   const [items, setItems] = useState([]);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { 
+    cart, 
+    setCart,
+    cartCount,
+    updateCartCount 
+  } = useCart();
+
   const getCart = async () => {
     try {
       const token = localStorage.getItem("userToken");
@@ -46,6 +56,7 @@ export default function Cart() {
 
   useEffect(() => {
     getCart();
+    updateCartCount(cart); // تحديث العداد تلقائيًا
       calculateSubtotal(cart);
      
     
@@ -83,7 +94,13 @@ export default function Cart() {
           transition: Bounce,
         });
         setCart(prev => prev.filter(item => item.productId !== productId));
+
+
+
         calculateSubtotal(cart.filter(item => item.productId !== productId)); // تحديث المجموع بعد الحذف
+
+        setCartCount(prev => prev - 1);
+        toast.success("Product removed successfully!");
         navigate("/");
       }
 
@@ -100,7 +117,7 @@ export default function Cart() {
   };
 
   const deleteCart = async () => { 
-   
+    setIsDeleting(true);
     
     try {
       const token = localStorage.getItem("userToken");
@@ -115,7 +132,10 @@ export default function Cart() {
       );
   
       // تحقق من الاستجابة بناءً على ما يعيده الخادم فعليًا
-      if (data.message === "success") { // مثال بناءً على هيكل الاستجابة المتوقع
+      if (data.message === "success") {
+        setCart([]);
+        
+        // مثال بناءً على هيكل الاستجابة المتوقع
         toast.success("Cart deleted successfully!", {
           position: "top-right",
           autoClose: 5000,
@@ -127,7 +147,9 @@ export default function Cart() {
           theme: "dark",
           transition: Bounce,
         });
-        navigate("/");
+        
+        
+        setTimeout(() => navigate("/"), 1500); // تأخير بسيط لرؤية الإشعار
       } else {
         console.error("Unexpected response:", data);
         toast.error("Failed to delete cart. Please try again.", {
@@ -159,6 +181,8 @@ export default function Cart() {
       navigate("/");
       // قم بتحديث سلة المشتريات بعد الحذف
       getCart();
+    }finally {
+      setIsDeleting(false);
     }
    
 

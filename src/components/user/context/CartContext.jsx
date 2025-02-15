@@ -1,13 +1,29 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext  } from "react";
 import axios from "axios";
+
+
+
 
 export const CartContext = createContext();
 export const CartContextProvider = ({ children }) => {
   const [cartCount, setCartCount] = useState(0);
+  const [cart, setCart] = useState([]);
   //const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getCart();
+
+     
+  getCart();
+
   }, []);
+
+   // دالة تحديث العداد
+   const updateCartCount = (items) => {
+    const count = items.reduce((total, item) => total + item.quantity, 0);
+    setCartCount(count);
+  };
+
+
+
   const getCart = async()=> {
     try {
       const token = localStorage.getItem("userToken");
@@ -30,10 +46,19 @@ export const CartContextProvider = ({ children }) => {
       //setLoading(false);
     }
   };
+ 
+
+
   return (
-    <CartContext.Provider value={{ cartCount, setCartCount }}>
+    <CartContext.Provider value={{ cartCount, setCartCount , cart, 
+      setCart,  updateCartCount }}>
       {children}
     </CartContext.Provider>
   );
 };
+
+
+export const useCart = () => useContext(CartContext);
+
+//export default CartContextProvider;
 export default CartContextProvider;
