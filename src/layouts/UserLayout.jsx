@@ -6,14 +6,6 @@ import Footer from '../components/user/footer/Footer'
 import CartContextProvider from '../components/user/context/CartContext'
 
 
-
-
-
-
-
-
-
-
 export default function UserLayout() {
   return (
     <>

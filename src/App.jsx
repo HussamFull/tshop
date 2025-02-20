@@ -30,6 +30,7 @@ import Orders from './pages/user/profile/Orders'
 import AuthProtectedRoute from './components/user/AuthProtectedRoute/AuthProtectedRoute'
 import ImageProfile from './pages/user/profile/ImageProfile'
 import CreateOrder from './pages/user/profile/CreateOrder'
+import Checkout from './pages/user/profile/Checkout'
 
 
 
@@ -82,6 +83,15 @@ export default function App() {
             <Cart /> 
             </ProtectedRoute>
           },
+          // تم نقل مسار checkout إلى هنا ليصبح مسارًا رئيسيًا
+        { 
+          path: 'checkout', 
+          element: (
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          )
+        },
           {
              path: 'profile', 
              element: <Profile /> ,
@@ -89,7 +99,10 @@ export default function App() {
                { path: 'info', element: <Info /> },
                { path: 'orders', element: <Orders /> },
                { path: 'createOrder', element: <CreateOrder /> },
+              // { path: 'checkout', element: <Checkout /> },
+
                { path: 'imageProfile', element: <ImageProfile /> },
+              
              ],
             
             

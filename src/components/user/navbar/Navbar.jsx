@@ -40,10 +40,10 @@ export default function CustomNavbar() {
               <Link className="navbar-brand logo_h" to={'/'}>
               
               <p className="banner_inner"></p>
-              <h3 className="syria-shop">
-  <span className="syria">Syria </span> 
-  <span className="shop">Shop</span>
-</h3>
+                  <h3 className="syria-shop">
+                  <span className="syria">Syria </span> 
+                  <span className="shop">Shop</span>
+                </h3>
                {/*  <img src="./assets/img/logo.png" alt="" /> */}
               </Link>
               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

@@ -60,6 +60,7 @@ export default function ProductDetails() {
           theme: "dark",
           transition: Flip,
         });
+        console.log(cartCount);
         setCartCount(cartCount + 1);
         navigate("/cart");
       }

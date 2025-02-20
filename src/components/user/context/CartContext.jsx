@@ -6,9 +6,17 @@ import axios from "axios";
 
 export const CartContext = createContext();
 export const CartContextProvider = ({ children }) => {
+
   const [cartCount, setCartCount] = useState(0);
   const [cart, setCart] = useState([]);
   //const [loading, setLoading] = useState(true);
+
+  const clearCart = () => {
+    setCart([]);
+    setCartCount(0);
+  };
+
+
   useEffect(() => {
 
      
@@ -50,8 +58,7 @@ export const CartContextProvider = ({ children }) => {
 
 
   return (
-    <CartContext.Provider value={{ cartCount, setCartCount , cart, 
-      setCart,  updateCartCount }}>
+    <CartContext.Provider value={{ cartCount, setCartCount }}>
       {children}
     </CartContext.Provider>
   );

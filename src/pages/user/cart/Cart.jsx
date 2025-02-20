@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -9,23 +9,16 @@ import Loading from "../../../components/user/loading/Loading";
 import { toast, Flip, Bounce } from "react-toastify";
 import { Button, Card } from "react-bootstrap";
 import { FiShoppingCart } from "react-icons/fi";
-import { useCart } from "../../../components/user/context/CartContext";
-
-
+import { CartContext, useCart } from "../../../components/user/context/CartContext";
 
 export default function Cart() {
-  //const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [subtotal, setSubtotal] = useState(0);
   const [items, setItems] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { 
-    cart, 
-    setCart,
-    cartCount,
-    updateCartCount 
-  } = useCart();
+  const {  cartCount ,setCartCount} = useContext(CartContext);
 
   const getCart = async () => {
     try {
@@ -45,23 +38,20 @@ export default function Cart() {
       setIsLoading(false);
     }
   };
- // دالة حساب المجموع الكلي
- const calculateSubtotal = (cartItems) => {
-  const total = cartItems.reduce((sum, item) => {
-    return sum + (item.quantity * item.details.finalPrice);
-  }, 0);
-  setSubtotal(total);
-};
-
+  // دالة حساب المجموع الكلي
+  const calculateSubtotal = (cartItems) => {
+    const total = cartItems.reduce((sum, item) => {
+      return sum + item.quantity * item.details.finalPrice;
+    }, 0);
+    setSubtotal(total);
+    console.log(total,"here")
+  };
 
   useEffect(() => {
     getCart();
-    updateCartCount(cart); // تحديث العداد تلقائيًا
-      calculateSubtotal(cart);
-     
-    
-  }, [cart]);
-  
+    //updateCartCount(cart); // تحديث العداد تلقائيًا
+    calculateSubtotal(cart);
+  }, []);
 
   const deleteItem = async (productId) => {
     try {
@@ -82,24 +72,25 @@ export default function Cart() {
       );
 
       if (data.message === "success") {
-        toast.success("The product has been successfully removed from the cart !", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
-        setCart(prev => prev.filter(item => item.productId !== productId));
+        toast.success(
+          "The product has been successfully removed from the cart !",
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          }
+        );
+        setCart((prev) => prev.filter((item) => item.productId !== productId));
 
+        calculateSubtotal(cart.filter((item) => item.productId !== productId)); // تحديث المجموع بعد الحذف
 
-
-        calculateSubtotal(cart.filter(item => item.productId !== productId)); // تحديث المجموع بعد الحذف
-
-        setCartCount(prev => prev - 1);
+        setCartCount((prev) => prev - 1);
         toast.success("Product removed successfully!");
         navigate("/");
       }
@@ -112,13 +103,13 @@ export default function Cart() {
     }
 
     getCart();
-    
+
     // قم بتحديث سلة المشتريات بعد الحذف
   };
 
-  const deleteCart = async () => { 
+  const deleteCart = async () => {
     setIsDeleting(true);
-    
+
     try {
       const token = localStorage.getItem("userToken");
       const { data } = await axios.patch(
@@ -130,11 +121,11 @@ export default function Cart() {
           },
         }
       );
-  
+
       // تحقق من الاستجابة بناءً على ما يعيده الخادم فعليًا
       if (data.message === "success") {
         setCart([]);
-        
+        setCartCount(0);
         // مثال بناءً على هيكل الاستجابة المتوقع
         toast.success("Cart deleted successfully!", {
           position: "top-right",
@@ -147,8 +138,7 @@ export default function Cart() {
           theme: "dark",
           transition: Bounce,
         });
-        
-        
+
         setTimeout(() => navigate("/"), 1500); // تأخير بسيط لرؤية الإشعار
       } else {
         console.error("Unexpected response:", data);
@@ -177,19 +167,14 @@ export default function Cart() {
         theme: "dark",
         transition: Bounce,
       });
-     
+
       navigate("/");
       // قم بتحديث سلة المشتريات بعد الحذف
-      getCart();
-    }finally {
+      //getCart();
+    } finally {
       setIsDeleting(false);
     }
-   
-
   };
- 
-
-
 
   if (isLoading) {
     return (
@@ -200,52 +185,45 @@ export default function Cart() {
   }
 
   if (cart.length === 0 && !isLoading) {
-    return    <div 
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '70vh',
-      width: '100%'
-    }}
-  >
-    <Card 
-      border="success" 
-      style={{ 
-        width: '18rem', 
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-        textAlign: 'center'
-      }}
-    >
-      <Card.Header className="bg-success    text-white">
-        Empty Cart
-      </Card.Header>
-      <Card.Body>
-        <Card.Title style={{ margin: '1rem 0' }}>
-          <FiShoppingCart size={40} className="text-success" />
-        </Card.Title>
-        <Card.Text>
-          No products in cart.
-        </Card.Text>
-        <Button 
-          variant="success" 
-          as={Link} 
-          to="/"
-          style={{ marginTop: '1rem' }}
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "70vh",
+          width: "100%",
+        }}
+      >
+        <Card
+          border="success"
+          style={{
+            width: "18rem",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            textAlign: "center",
+          }}
         >
-          Start Shopping
-        </Button>
-      </Card.Body>
-    </Card>
-  </div>
-  
-  
+          <Card.Header className="bg-success    text-white">
+            Empty Cart
+          </Card.Header>
+          <Card.Body>
+            <Card.Title style={{ margin: "1rem 0" }}>
+              <FiShoppingCart size={40} className="text-success" />
+            </Card.Title>
+            <Card.Text>No products in cart.</Card.Text>
+            <Button
+              variant="success"
+              as={Link}
+              to="/"
+              style={{ marginTop: "1rem" }}
+            >
+              Start Shopping
+            </Button>
+          </Card.Body>
+        </Card>
+      </div>
+    );
   }
-  
-
-
- 
-
 
   async function incQty(productId) {
     const token = localStorage.getItem("userToken");
@@ -284,29 +262,30 @@ export default function Cart() {
   const incQtym = async (productId) => {
     try {
       const token = localStorage.getItem("userToken");
-      
+
       // الحصول على العنصر الحالي من السلة
-      const currentItem = cart.find(item => item.productId === productId);
-      
+      const currentItem = cart.find((item) => item.productId === productId);
+
       // إذا كانت الكمية الحالية 1، قم بحذف العنصر بدلاً من الإنقاص
       if (currentItem.quantity === 1) {
         await deleteItem(productId); // استدعاء دالة الحذف
         return;
       }
-  
+
       // إذا كانت الكمية أكبر من 1، قم بالإنقاص
       await axios.patch(
         `${import.meta.env.VITE_BURL}/cart/decraseQuantity`,
         { productId },
         { headers: { Authorization: `Tariq__${token}` } }
       );
-  
-      setCart(prev => prev.map(item => 
-        item.productId === productId 
-          ? { ...item, quantity: Math.max(1, item.quantity - 1) } // التأكد من عدم النزول تحت 1
-          : item
-      ));
-      
+
+      setCart((prev) =>
+        prev.map((item) =>
+          item.productId === productId
+            ? { ...item, quantity: Math.max(1, item.quantity - 1) } // التأكد من عدم النزول تحت 1
+            : item
+        )
+      );
     } catch (error) {
       toast.error("Error updating quantity");
     }
@@ -399,18 +378,25 @@ export default function Cart() {
                         </div>
                       </td>
                       <td>
-                        <h5>$ {(item.quantity * item.details.finalPrice).toFixed(2)}</h5>
+                        <h5>
+                          ${" "}
+                          {(item.quantity * item.details.finalPrice).toFixed(2)}
+                        </h5>
                       </td>
                     </tr>
                   ))}
 
                   <tr className="bottom_button">
                     <td>
-                      <button onClick={() => deleteCart()} className="btn btn-danger" href="#">
+                      <button
+                        onClick={() => deleteCart()}
+                        className="btn btn-danger"
+                        href="#"
+                      >
                         Delete Cart
                       </button>
                     </td>
-                    
+
                     <td />
                     <td />
                     <td>
@@ -462,7 +448,7 @@ export default function Cart() {
                           Calculate Shipping
                           <i className="fa fa-caret-down" aria-hidden="true" />
                         </h6>
-                     
+
                         <input type="text" placeholder="Postcode/Zipcode" />
                         <a className="gray_btn" href="#">
                           Update Details
@@ -479,9 +465,9 @@ export default function Cart() {
                         <a className="gray_btn" href="#">
                           Continue Shopping
                         </a>
-                        <a className="main_btn" href="#">
+                        <Link className="main_btn" to={"/checkout"}>
                           Proceed to checkout
-                        </a>
+                        </Link>
                       </div>
                     </td>
                   </tr>
