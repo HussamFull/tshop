@@ -31,6 +31,9 @@ import AuthProtectedRoute from './components/user/AuthProtectedRoute/AuthProtect
 import ImageProfile from './pages/user/profile/ImageProfile'
 import CreateOrder from './pages/user/profile/CreateOrder'
 import Checkout from './pages/user/profile/Checkout'
+import SendCode from './pages/user/forgotPassword/SendCode'
+import SubCode from './pages/user/forgotPassword/SubCode'
+//import OrderProdect from './pages/user/profile/OrderProdect'
 
 
 
@@ -54,6 +57,8 @@ export default function App() {
         children: [
           { path: 'login', element: <Login /> },
           { path: 'register', element: <Register /> },
+          { path: 'sendCode', element: <SendCode /> },
+          { path: 'subcode', element: <SubCode /> },
         ],
       },
       {
@@ -98,6 +103,7 @@ export default function App() {
              children: [
                { path: 'info', element: <Info /> },
                { path: 'orders', element: <Orders /> },
+               //{ path: 'orders/:orderId', element: <OrderProdect /> },
                { path: 'createOrder', element: <CreateOrder /> },
               // { path: 'checkout', element: <Checkout /> },
 

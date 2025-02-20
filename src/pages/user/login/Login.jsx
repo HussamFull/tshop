@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Bounce, toast, Flip } from "react-toastify";
 import CustomNavbar from "../../../components/user/navbar/Navbar";
 import Image from 'react-bootstrap/Image';
@@ -138,9 +138,9 @@ export default function Login() {
               </Button>
 
               <div className="text-center">
-                <a href="#" className="text-decoration-none">
+                <Link to={'/auth/sendcode'}  className="text-decoration-none">
                 Forgot your password?
-                </a>
+                </Link>
               </div>
             </Form>
           </div>

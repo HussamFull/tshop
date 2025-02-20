@@ -6,6 +6,20 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useCart } from "../../../components/user/context/CartContext";
 import Table from "react-bootstrap/Table";
 import { Badge } from "react-bootstrap";
+import { Link } from 'react-router-dom';
+
+
+
+const OrderItem = ({ order }) => {
+  return (
+    <tr>
+      <td>{order.id}</td>
+      <td>{order.product.title}</td>
+      <td>{order.quantity}</td>
+      <td>{order.product.price * order.quantity}</td>
+    </tr>
+  );
+};
 
 export default function Orders() {
   const [cart, setCart] = useState([]);
@@ -90,8 +104,13 @@ export default function Orders() {
                           <Badge>{order.status}</Badge>
                         )}
                     </Card.Text>
+                    
 
-                    <Button variant="primary">Go to Product </Button>
+                        {/*
+                    <Link to={`order/${order._id}`} className="btn btn-primary mt-3">Order Details</Link>
+                    */}
+
+
                   </Card.Body>
                 </Card>
               ))}
