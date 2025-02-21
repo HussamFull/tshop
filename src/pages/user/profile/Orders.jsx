@@ -8,6 +8,7 @@ import Table from "react-bootstrap/Table";
 import { Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
+import { toast, Bounce } from "react-toastify";
 
 const OrderItem = ({ order }) => {
   return (
@@ -64,6 +65,53 @@ export default function Orders() {
     return <div>No orders found.</div>;
   }
 
+  const cancelOrder = async (orderId) => {
+    const token = localStorage.getItem("userToken");
+    setError(null); // Clear any previous errors
+
+    try {
+      const response = await axios.patch(
+        `${import.meta.env.VITE_BURL}/order/cancel/${orderId}`,
+        {}, // Request body (if needed)
+        {
+          headers: {
+            Authorization: `Tariq__${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200 || response.status === 204) {
+        // 204 No Content is also a success code for PATCH
+        toast.success("Order canceled successfully!", {
+          /* ... toast options ... */
+        });
+        console.log("Order canceled successfully");
+        setOrders(orders.filter((o) => o._id !== orderId));
+      } else {
+        // More informative error handling:
+        const errorMessage =
+          response.data?.message ||
+          response.data ||
+          "Failed to cancel order. Server returned an error.";
+        console.error("Failed to cancel order:", response.status, errorMessage); // Log status and message
+        toast.error(errorMessage, {
+          /* ... toast options ... */
+        }); // Display error message to user
+        setError(errorMessage); // Set error state
+      }
+    } catch (error) {
+      console.error("Error canceling order:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "An error occurred while canceling the order.";
+      toast.error(errorMessage, {
+        /* ... toast options ... */
+      });
+      setError(errorMessage);
+    }
+  };
+
   return (
     <>
       {" "}
@@ -71,22 +119,25 @@ export default function Orders() {
       <Container>
         {orders.map((order, index) => (
           <Accordion defaultActiveKey="0" key={index}>
-            <Accordion.Item eventKey="0">
+            <Accordion.Item eventKey="1">
               <Accordion.Header>
                 Order Address : {order.address} &&&nbsp;
                 <Badge
-                  bg={
+                  className={`m-2 ${
                     order.status === "delivered"
-                      ? "success"
+                      ? "bg-success"
                       : order.status === "pending"
-                      ? "danger"
-                      : "success"
-                  }
+                      ? "bg-danger"
+                      : order.status === "cancelled"
+                      ? "bg-warning"
+                      : ""
+                  }`}
                 >
-                  {" "}
-                  {/*Simplified Badge logic */}
                   Order Status: {order.status}
                 </Badge>
+                <Button onClick={() => cancelOrder(order._id)}>
+                  cancel Order{" "}
+                </Button>
                 {/*  <Link to={`/profile/order/${order._id}`}>See Order Details</Link> */}
               </Accordion.Header>
               <Accordion.Body>
