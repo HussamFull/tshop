@@ -6,9 +6,8 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useCart } from "../../../components/user/context/CartContext";
 import Table from "react-bootstrap/Table";
 import { Badge } from "react-bootstrap";
-import { Link } from 'react-router-dom';
-
-
+import { Link } from "react-router-dom";
+import Accordion from "react-bootstrap/Accordion";
 
 const OrderItem = ({ order }) => {
   return (
@@ -53,166 +52,87 @@ export default function Orders() {
   if (isLoading) {
     return (
       <div>
-        {" "}
-        <Loading />{" "}
+        <Loading />
       </div>
     );
   }
   if (error) {
     return <div>Error: {error}</div>;
   }
+  if (orders.length === 0) {
+    // Handle the case where there are no orders
+    return <div>No orders found.</div>;
+  }
 
   return (
     <>
+      {" "}
       <h1>Info Orders</h1>
-
       <Container>
-        <Row
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          <Col>
-            <h2>Orders</h2>
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {orders.map((order, index) => (
-                <Card key={index} style={{ width: "18rem", margin: "10px" }}>
-                  <Card.Img
-                    variant="top"
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      borderRadius: "50%",
-                    }}
-                  />
-                  <Card.Body >
-                    <Card.Title> {order.address}</Card.Title>
-                    <Card.Text>{order.phoneNumber}</Card.Text>
-                    <Card.Text>paymentType: {order.paymentType}</Card.Text>
-                    <Card.Text>
-                      {order.status === "delivered" && (
-                         <Badge bg="success">{order.status}</Badge>
-                      )}
-                      {order.status === "pending" && (
-                        <Badge bg="danger">{order.status}</Badge>
-                      )}
-
-                      {order.status !== "pending" &&
-                        order.status !== "delivered" && (
-                          <Badge>{order.status}</Badge>
-                        )}
-                    </Card.Text>
-                    
-
-                        {/*
-                    <Link to={`order/${order._id}`} className="btn btn-primary mt-3">Order Details</Link>
-                    */}
-
-
-                  </Card.Body>
-                </Card>
-              ))}
-            </div>
-          </Col>
-        </Row>
+        {orders.map((order, index) => (
+          <Accordion defaultActiveKey="0" key={index}>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>
+                Order Address : {order.address} &&&nbsp;
+                <Badge
+                  bg={
+                    order.status === "delivered"
+                      ? "success"
+                      : order.status === "pending"
+                      ? "danger"
+                      : "success"
+                  }
+                >
+                  {" "}
+                  {/*Simplified Badge logic */}
+                  Order Status: {order.status}
+                </Badge>
+                {/*  <Link to={`/profile/order/${order._id}`}>See Order Details</Link> */}
+              </Accordion.Header>
+              <Accordion.Body>
+                phoneNumber: {order.phoneNumber}
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Product Image</th> {/* Changed to Image */}
+                      <th>Product Title</th>
+                      <th>Quantity</th>
+                      <th>Unit Price</th> {/* Added Unit Price */}
+                      <th>Total Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {order.products.map(
+                      (
+                        product // Map through each product
+                      ) => (
+                        <tr key={product.productId._id}>
+                          {" "}
+                          {/* Added key for each row - use product ID */}
+                          <td>
+                            <img
+                              src={product.productId.mainImage.secure_url}
+                              alt={product.productId.name}
+                              style={{ maxWidth: "50px" }}
+                            />{" "}
+                            {/* Display image */}
+                          </td>
+                          <td>{product.productId.name}</td>
+                          <td>{product.quantity}</td>
+                          <td>{product.unitPrice}</td>{" "}
+                          {/* Display unit price */}
+                          <td>{product.finalPrice}</td>{" "}
+                          {/* Display final price for this product */}
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </Table>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        ))}
       </Container>
-
-      {/*  
-   <Table  striped bordered hover size="lg" >
-     <thead>
-       <tr>
-         <td colSpan={3}>Info Orders</td>
-       </tr>
-     </thead> 
-     {orders.map((order, _id) => (
-     <tbody>
-       <tr  key={_id} >
-         <td>User Address :</td>
-         <td>{order.address}</td>
-       </tr>
-       <tr>
-         <td>finalPrice :</td>
-         <td>{order.finalPrice}</td>
-       </tr>
-       <tr>
-         <td> phoneNumber :</td>
-         <td>{order.phoneNumber}</td>
-       </tr>
-       <tr>
-         <td>Order Status :</td>
-         <td>{order.status}</td>
-       </tr>
-
-       <tr>
-         <td>Products Ordered:</td>
-         <td></td>
-         </tr>
-       </tbody>
-
-    
-       ))}
-     
-     
-     
-
-      
-   </Table>
-
-
-
-
-
-    
- 
- /*}
-      
-      {/* Pagination */}
-      {/* Previous Button */}
-      {/* Next Button */}
-
-      {/* Order Details Button */}
-
-      {/* Order Details Modal */}
-
-      {/* Add Order Button */}
-      <button
-        onClick={() => {
-          // Add order logic here
-        }}
-      >
-        Add Order
-      </button>
-
-      {/* Delete Order Button */}
-      <button
-        onClick={() => {
-          // Delete order logic here
-        }}
-      >
-        Delete Order
-      </button>
-
-      {/* Edit Order Button */}
-      <button
-        onClick={() => {
-          // Edit order logic here
-        }}
-      >
-        Edit Order
-      </button>
-
-      {/* Filter Orders Button */}
-      <button
-        onClick={() => {
-          // Filter orders logic here
-        }}
-      >
-        Filter Orders
-      </button>
-
-      {/* Sort Orders Button */}
     </>
   );
 }
