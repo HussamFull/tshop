@@ -1,5 +1,5 @@
 import React from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bounce, toast, Flip } from "react-toastify";
@@ -9,17 +9,11 @@ import { useContext } from "react";
 import { CartContext } from "../../../components/user/context/CartContext.jsx";
 import Loading from "../../../components/user/loading/Loading.jsx";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
-import { useForm } from 'react-hook-form';
-import style from './star.module.css'
-
-
-
-
-
-
+import { useForm } from "react-hook-form";
+import style from "./star.module.css";
+import { UserContext } from "../../../components/user/context/UserContext.jsx";
 
 export default function ProductDetails() {
-
   const { productId } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
@@ -29,14 +23,18 @@ export default function ProductDetails() {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(1);
   const [reviews, setReviews] = useState([]);
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [isLoding, setIsLoding] = useState(false);
+  const { user } = useContext(UserContext);
 
-const onHoverStar=(num)=>{
-  setRating(num);
-}
-console.log(rating);
-
+  const onHoverStar = (num) => {
+    setRating(num);
+  };
+  console.log(rating);
 
   const getProduct = async () => {
     try {
@@ -90,15 +88,10 @@ console.log(rating);
   };
 
   useEffect(() => {
-   getProduct();
+    getProduct();
   }, []);
 
-
-
- 
-
-   const handleSubmitComment = async (e) =>
-     {
+  const handleSubmitComment = async (e) => {
     // منع إعادة تحميل الصفحة عند الإرسال
     setIsLoading(true);
     try {
@@ -115,9 +108,9 @@ console.log(rating);
       // 2. إرسال البيانات
       const { data } = await axios.post(
         `${import.meta.env.VITE_BURL}/products/${productId}/review`,
-        { 
-          comment:e.comment,
-    rating:rating
+        {
+          comment: e.comment,
+          rating: rating,
         },
         {
           headers: {
@@ -156,13 +149,15 @@ console.log(rating);
       setIsLoading(false);
     }
   };
-  
+
   if (isLoading) {
-    return <div> <Loading /> </div>;
+    return (
+      <div>
+        {" "}
+        <Loading />{" "}
+      </div>
+    );
   }
-
-
-
 
   return (
     <>
@@ -379,8 +374,7 @@ console.log(rating);
               id="profile"
               role="tabpanel"
               aria-labelledby="profile-tab"
-            > 
-            
+            >
               <div class="table-responsive">
                 <table class="table">
                   <tbody>
@@ -462,102 +456,98 @@ console.log(rating);
               <div class="row">
                 <div class="col-lg-6">
                   <div class="comment_list">
-
                     <div class="review_item">
                       <div class="media">
                         <div class="d-flex">
                           <img
-                            src="../../../../public/assets/img/product/single-product/review-1.png "
+                            src="./assets/img/product/single-product/review-1.png "
                             alt=""
                           />
                         </div>
                         <div class="media-body">
-                          <h4>Blake Ruiz</h4>
-                          <h5>12th Feb, 2017 at 05:56 pm</h5>
-                          <a class="reply_btn" href="#">
-                            Reply
-                          </a>
+                          <h4>{user?.userName}</h4>
+                          <h5>{user?.createdAt}</h5>
                         </div>
                       </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis
-                        nostrud exercitation ullamco laboris nisi ut aliquip ex
-                        ea commodo
-                      </p>
-                    </div>
+                      <div>
+                        {reviews?.map((review, index) => (
+                          <div
+                            key={review.id || index}
+                            style={{
+                              marginBottom: "20px",
+                              borderBottom: "1px solid #eee",
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                              }}
+                            >
+                              {/* اسم المستخدم */}
+                              <h4>
+                                {review.createdBy?.userName || "مستخدم مجهول"}
+                              </h4>
 
-                    <div class="review_item reply">
-                      <div class="media">
-                        <div class="d-flex">
-                          <img
-                            src="../../../../public/assets/img/product/single-product/review-2.png "
-                            alt=""
-                          />
-                        </div>
-                        <div class="media-body">
-                          <h4>Blake Ruiz</h4>
-                          <h5>12th Feb, 2017 at 05:56 pm</h5>
-                          <a class="reply_btn" href="#">
-                            Reply
-                          </a>
-                        </div>
+                              {/* التقييم */}
+                              <div style={{ color: "#ffd700" }}>
+                                {"★".repeat(Math.floor(review.rating))}
+                                {review.rating % 1 !== 0 && "½"}
+                              </div>
+                            </div>
+
+                            {/* نص التعليق */}
+                            <p>{review.comment}</p>
+
+                            {/* تاريخ التعليق */}
+                            <small style={{ color: "#666" }}>
+                              {new Date(review.createdAt).toLocaleDateString()}
+                            </small>
+                          </div>
+                        ))}
                       </div>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis
-                        nostrud exercitation ullamco laboris nisi ut aliquip ex
-                        ea commodo
-                      </p>
                     </div>
-
-
-                    
-
                   </div>
                 </div>
 
-              {/* create Post a comment   */}
+                {/* create Post a comment   */}
                 <div class="col-lg-6">
                   <div class="review_box">
                     <h4>Post a comment</h4>
 
-                    <Form  
-                    onSubmit={handleSubmit(handleSubmitComment)}
+                    <Form
+                      onSubmit={handleSubmit(handleSubmitComment)}
                       class="row "
-                     
                     >
-                       <FloatingLabel
-              controlId="name"
-              label="Name"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="Your Comment"
-                {...register("comment")}
-              />
-              {/* {errors.comment && (
+                      <FloatingLabel
+                        controlId="name"
+                        label="comment"
+                        className="mb-3"
+                      >
+                        <Form.Control
+                          type="text"
+                          placeholder="Your Comment"
+                          {...register("comment")}
+                        />
+                        {/* {errors.comment && (
                 <div className="text-danger small mt-1">
                   {errors.userName.message}
                 </div>
               )} */}
-            </FloatingLabel>
-                     
+                      </FloatingLabel>
+
                       <div class="col-md-12 text-right">
-                      <Button 
-                variant="primary" 
-                type="submit"
-                disabled={isLoding}
-                size="lg"
-              >
-                {isLoding ? 'Creating Comment...' : 'Create Comment'}
-              </Button>
+                        <Button
+                          variant="primary"
+                          type="submit"
+                          disabled={isLoding}
+                          size="lg"
+                        >
+                          {isLoding ? "Creating Comment..." : "Create Comment"}
+                        </Button>
                       </div>
                     </Form>
-
                   </div>
                 </div>
               </div>
@@ -581,161 +571,63 @@ console.log(rating);
                       </div>
                     </div>
 
-
                     <div class="col-6">
                       <div class="rating_list">
-                        <h3>Based on  {reviews.length} Reviews</h3>
+                        <h3>Based on {reviews.length} Reviews</h3>
                         <ul class="list">
                           <li>
                             <a href="#">
                               5 Star
-                              <i className={`fa fa-star ${rating>=1?style.fill:style.normal }`}  onMouseEnter={()=>{onHoverStar(1)}}></i>
-                              <i className={`fa fa-star ${rating>=2?style.fill:style.normal }`}  onMouseEnter={()=>{onHoverStar(2)}}></i>
-                              <i className={`fa fa-star ${rating>=3?style.fill:style.normal }`}  onMouseEnter={()=>{onHoverStar(3)}}></i>
-                              <i className={`fa fa-star ${rating>=4?style.fill:style.normal }`}  onMouseEnter={()=>{onHoverStar(4)}}></i>
-                              <i className={`fa fa-star ${rating>=5?style.fill:style.normal }`}  onMouseEnter={()=>{onHoverStar(5)}}></i> 
+                              <i
+                                className={`fa fa-star ${
+                                  rating >= 1 ? style.fill : style.normal
+                                }`}
+                                onMouseEnter={() => {
+                                  onHoverStar(1);
+                                }}
+                              ></i>
+                              <i
+                                className={`fa fa-star ${
+                                  rating >= 2 ? style.fill : style.normal
+                                }`}
+                                onMouseEnter={() => {
+                                  onHoverStar(2);
+                                }}
+                              ></i>
+                              <i
+                                className={`fa fa-star ${
+                                  rating >= 3 ? style.fill : style.normal
+                                }`}
+                                onMouseEnter={() => {
+                                  onHoverStar(3);
+                                }}
+                              ></i>
+                              <i
+                                className={`fa fa-star ${
+                                  rating >= 4 ? style.fill : style.normal
+                                }`}
+                                onMouseEnter={() => {
+                                  onHoverStar(4);
+                                }}
+                              ></i>
+                              <i
+                                className={`fa fa-star ${
+                                  rating >= 5 ? style.fill : style.normal
+                                }`}
+                                onMouseEnter={() => {
+                                  onHoverStar(5);
+                                }}
+                              ></i>
                             </a>
                           </li>
-                        
-
                         </ul>
                       </div>
                     </div>
                   </div>
-
-
-                  <div class="review_list">
-                
-                  {reviews.map((review) => (
-  
-                  
-                    <div class="review_item"  key={review.id}>
-                      <div class="media">
-                        <div class="d-flex">
-                          <img
-                            src="../../../../public/assets/img/product/single-product/review-1.png "
-                            alt=""
-                          />
-                        </div>
-
-                        <div class="media-body">
-                          <h4>{review.userName}</h4>
-                          {[...Array(review.rating)].map((star, i) => (
-                          <i class="fa fa-star "  key={i}></i>
-                        ))}
-                         
-                        </div>
-                      </div>
-                      <p>{review.comment}</p>
-                    </div>
-                    ))}
-
-
-                    
-                  
-
-                  </div>
                 </div>
                 {/*   end rating    */}
 
-
                 {/*   Add Rating    */}
-                <div class="col-lg-6">
-                  <div class="review_box">
-                    <h4>Add a Review</h4>
-                    <p>Your Rating:</p>
-                    <ul class="list">
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-star"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-star"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-star"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-star"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-star"></i>
-                        </a>
-                      </li>
-                    </ul>
-                    <p>Outstanding</p>
-                    <form
-                      class="row contact_form"
-                      action="contact_process.php"
-                      method="post"
-                      id="contactForm"
-                      novalidate="novalidate"
-                    >
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="name"
-                            name="name"
-                            placeholder="Your Full name"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <input
-                            type="email"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            placeholder="Email Address"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="number"
-                            name="number"
-                            placeholder="Phone Number"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <textarea
-                            class="form-control"
-                            name="message"
-                            id="message"
-                            rows="1"
-                            placeholder="Review"
-                          ></textarea>
-                        </div>
-                      </div>
-                      <div class="col-md-12 text-right">
-                        <button
-                          type="submit"
-                          value="submit"
-                          class="btn submit_btn"
-                        >
-                          Submit Now
-                        </button>
-                      </div>
-                    </form>
-
-                  </div>
-                </div>
               </div>
             </div>
           </div>

@@ -53,6 +53,8 @@ export default function Cart() {
     calculateSubtotal(cart);
   }, []);
 
+  
+
   const deleteItem = async (productId) => {
     try {
       // احصل على التوكن من التخزين المحلي
@@ -421,50 +423,14 @@ export default function Cart() {
                       <h5>${subtotal.toFixed(2)}</h5>
                     </td>
                   </tr>
-                  <tr className="shipping_area">
-                    <td />
-                    <td />
-                    <td>
-                      <p>Shipping</p>
-                    </td>
-
-                    <td>
-                      <div className="shipping_box">
-                        <ul className="list">
-                          <li>
-                            <a href="#">Flat Rate: $5.00</a>
-                          </li>
-                          <li>
-                            <a href="#">Free Shipping</a>
-                          </li>
-                          <li>
-                            <a href="#">Flat Rate: $10.00</a>
-                          </li>
-                          <li className="active">
-                            <a href="#">Local Delivery: $2.00</a>
-                          </li>
-                        </ul>
-                        <h6>
-                          Calculate Shipping
-                          <i className="fa fa-caret-down" aria-hidden="true" />
-                        </h6>
-
-                        <input type="text" placeholder="Postcode/Zipcode" />
-                        <a className="gray_btn" href="#">
-                          Update Details
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
+                 
                   <tr className="out_button_area">
                     <td />
                     <td />
                     <td />
                     <td>
                       <div className="checkout_btn_inner">
-                        <a className="gray_btn" href="#">
-                          Continue Shopping
-                        </a>
+                       
                         <Link className="main_btn" to={"/checkout"}>
                           Proceed to checkout
                         </Link>
@@ -472,6 +438,11 @@ export default function Cart() {
                     </td>
                   </tr>
                 </tbody>
+                <tfoot>
+                <Link className="main_btn" to={"/"}>
+                Continue Shopping
+                        </Link>
+                </tfoot>
               </table>
             </div>
           </div>
