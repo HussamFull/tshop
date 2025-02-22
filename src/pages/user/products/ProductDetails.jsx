@@ -472,7 +472,7 @@ export default function ProductDetails() {
                       <div>
                         {reviews?.map((review, index) => (
                           <div
-                            key={review.id || index}
+                            key={review._id || index}
                             style={{
                               marginBottom: "20px",
                               borderBottom: "1px solid #eee",
@@ -487,7 +487,7 @@ export default function ProductDetails() {
                             >
                               {/* اسم المستخدم */}
                               <h4>
-                                {review.createdBy?.userName || "مستخدم مجهول"}
+                                {review.createdBy?.userName}
                               </h4>
 
                               {/* التقييم */}
@@ -566,6 +566,7 @@ export default function ProductDetails() {
                     <div class="col-6">
                       <div class="box_total">
                         <h5>Overall</h5>
+                        
                         <h4> {reviews.length}</h4>
                         <h6>({reviews.length} Reviews)</h6>
                       </div>

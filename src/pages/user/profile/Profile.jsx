@@ -26,6 +26,15 @@ export default function Profile() {
            
           </Col>
           <Col md={7} >
+          <div className="border p-4 rounded-3 shadow-sm align-item-center ">
+              <h2 className="text-center mb-3">
+                Welcome to
+                <h1 className="syria-shop">
+                  <span className="syria">Syria </span>
+                  <span className="shop">Shop</span>
+                </h1>
+              </h2>
+              </div>
             <Outlet />
           </Col>
         </Row>

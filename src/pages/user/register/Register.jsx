@@ -1,45 +1,37 @@
-import React, { useState } from 'react'
-import { Container, Row, Col,Image } from 'react-bootstrap';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Bounce, toast, Flip } from 'react-toastify';
-import { Badge } from 'react-bootstrap';
-import CustomNavbar from '../../../components/user/navbar/Navbar';
-import { Link } from 'react-router-dom';
-
-
-
-
-
-
-
-
-
-
+import React, { useState } from "react";
+import { Container, Row, Col, Image } from "react-bootstrap";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Bounce, toast, Flip } from "react-toastify";
+import { Badge } from "react-bootstrap";
+import CustomNavbar from "../../../components/user/navbar/Navbar";
+import { Link } from "react-router-dom";
 
 export default function Register() {
-
-
   const [isLoding, setIsLoding] = useState(false);
-
-
 
   const [serverError, setServerError] = useState("");
 
-
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
 
   const registerUser = async (value) => {
     setIsLoding(true);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BURL}/auth/signup`, value);
+      const response = await axios.post(
+        `${import.meta.env.VITE_BURL}/auth/signup`,
+        value
+      );
       if (response.status == 201) {
-        toast.success('Please check your Email!', {
+        toast.success("Please check your Email!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -50,13 +42,12 @@ export default function Register() {
           theme: "dark",
           transition: Bounce,
         });
-        navigate('/auth/login');
+        navigate("/auth/login");
       }
       console.log(response);
     } catch (error) {
-
       if (error.response.status == 409) {
-        toast.error('Email already in use!', {
+        toast.error("Email already in use!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -68,7 +59,7 @@ export default function Register() {
           transition: Flip,
         });
       } else {
-        toast.error('Something went wrong!', {
+        toast.error("Something went wrong!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -79,7 +70,6 @@ export default function Register() {
           theme: "dark",
           transition: Flip,
         });
-
       }
 
       setServerError(error.response.data.message);
@@ -88,130 +78,132 @@ export default function Register() {
     } finally {
       setIsLoding(false);
     }
-  }
-
+  };
 
   return (
     <>
-
-<CustomNavbar />
+      <CustomNavbar />
       <Container className="mt-5">
-      <Row className="justify-content-center">
-         {/* العمود الخاص بالصورة */}
-         <Col md={6} className="d-none d-md-block p-0">
-          <Image src="/assets/img/r1.png" thumbnail  alt="Login" className="w-100 vh-50" />
-        </Col>
-      <Col md={6} lg={6} className="vh-100" >
-        {/* Header Section */}
-        <div className="text-center mb-4">
-        <h1 className="syria-shop">
-                  <span className="syria">Syria </span> 
-                  <span className="shop">Shop</span>
-                </h1>
-          {/* <h1 className="display-4">Syria Shop</h1>  */}
-          <p className="text-muted mt-3">
-            Already have an account?{' '}
-            <Link to="/auth/login" className="text-primary">SIGN IN</Link>
-          </p>
-        </div>
-
-        {/* Main Content */}
-        <div className="border p-4 rounded-3 shadow-sm">
-          <h2 className="text-center mb-3">Welcome to <h3 className="syria-shop">
-                  <span className="syria">Syria </span> 
-                  <span className="shop">Shop</span>
-                </h3></h2>
-          
-          <h4 className="text-center text-muted mb-4">Register your account</h4>
-
-          {serverError && <div className="alert alert-danger">{serverError}</div>}
-
-          <Form onSubmit={handleSubmit(registerUser)}>
-            {/* Name Field */}
-            <FloatingLabel
-              controlId="name"
-              label="Name"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="John Doe"
-                {...register("userName", { 
-                  required: "Name is required" 
-                })}
-              />
-              {errors.userName && (
-                <div className="text-danger small mt-1">
-                  {errors.userName.message}
-                </div>
-              )}
-            </FloatingLabel>
-
-            {/* Email Field */}
-            <FloatingLabel
-              controlId="email"
-              label="Email"
-              className="mb-3"
-            >
-              <Form.Control
-                type="email"
-                placeholder="focus001@gmail.com"
-                {...register("email", { 
-                  required: "Email is required",
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: "Invalid email format"
-                  }
-                })}
-              />
-              {errors.email && (
-                <div className="text-danger small mt-1">
-                  {errors.email.message}
-                </div>
-              )}
-            </FloatingLabel>
-
-            {/* Password Field */}
-            <FloatingLabel
-              controlId="password"
-              label="Password"
-              className="mb-3"
-            >
-              <Form.Control
-                type="password"
-                placeholder="••••••••"
-                {...register("password", { 
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters"
-                  }
-                })}
-              />
-              {errors.password && (
-                <div className="text-danger small mt-1">
-                  {errors.password.message}
-                </div>
-              )}
-              <Form.Text className="text-muted">
-                8+ characters
-              </Form.Text>
-            </FloatingLabel>
-
-            {/* Submit Button */}
-            <div className="d-grid gap-2 mt-4">
-              <Button 
-                variant="primary" 
-                type="submit"
-                disabled={isLoding}
-                size="lg"
-              >
-                {isLoding ? 'Creating Account...' : 'Create Account'}
-              </Button>
+        <Row className="justify-content-center">
+          {/* العمود الخاص بالصورة */}
+          <Col md={6} className="d-none d-md-block p-0">
+            <Image
+              src="/assets/img/r1.png"
+              thumbnail
+              alt="Login"
+              className="w-100 vh-50"
+            />
+          </Col>
+          <Col md={6} lg={6} className="vh-100">
+            {/* Header Section */}
+            <div className="text-center mb-4">
+              <h1 className="syria-shop">
+                <span className="syria">Syria </span>
+                <span className="shop">Shop</span>
+              </h1>
+              {/* <h1 className="display-4">Syria Shop</h1>  */}
+              <p className="text-muted mt-3">
+                Already have an account?{" "}
+                <Link to="/auth/login" className="text-primary">
+                  SIGN IN
+                </Link>
+              </p>
             </div>
 
-            {/* Social Login Section */}
-           {/* <div className="text-center mt-4">
+            {/* Main Content */}
+            <div className="border p-4 rounded-3 shadow-sm">
+              <h2 className="text-center mb-3">
+                Welcome to{" "}
+                <h3 className="syria-shop">
+                  <span className="syria">Syria </span>
+                  <span className="shop">Shop</span>
+                </h3>
+              </h2>
+
+              <h4 className="text-center text-muted mb-4">
+                Register your account
+              </h4>
+
+              {serverError && (
+                <div className="alert alert-danger">{serverError}</div>
+              )}
+
+              <Form onSubmit={handleSubmit(registerUser)}>
+                {/* Name Field */}
+                <FloatingLabel controlId="name" label="Name" className="mb-3">
+                  <Form.Control
+                    type="text"
+                    placeholder="John Doe"
+                    {...register("userName", {
+                      required: "Name is required",
+                    })}
+                  />
+                  {errors.userName && (
+                    <div className="text-danger small mt-1">
+                      {errors.userName.message}
+                    </div>
+                  )}
+                </FloatingLabel>
+
+                {/* Email Field */}
+                <FloatingLabel controlId="email" label="Email" className="mb-3">
+                  <Form.Control
+                    type="email"
+                    placeholder="focus001@gmail.com"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Invalid email format",
+                      },
+                    })}
+                  />
+                  {errors.email && (
+                    <div className="text-danger small mt-1">
+                      {errors.email.message}
+                    </div>
+                  )}
+                </FloatingLabel>
+
+                {/* Password Field */}
+                <FloatingLabel
+                  controlId="password"
+                  label="Password"
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="password"
+                    placeholder="••••••••"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters",
+                      },
+                    })}
+                  />
+                  {errors.password && (
+                    <div className="text-danger small mt-1">
+                      {errors.password.message}
+                    </div>
+                  )}
+                  <Form.Text className="text-muted">8+ characters</Form.Text>
+                </FloatingLabel>
+
+                {/* Submit Button */}
+                <div className="d-grid gap-2 mt-4">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    disabled={isLoding}
+                    size="lg"
+                  >
+                    {isLoding ? "Creating Account..." : "Create Account"}
+                  </Button>
+                </div>
+
+                {/* Social Login Section */}
+                {/* <div className="text-center mt-4">
               <p className="text-muted">Create account with</p>
               <div className="d-flex gap-3 justify-content-center">
                 <Button 
@@ -230,12 +222,10 @@ export default function Register() {
                 </Button>
               </div>
             </div> */}
-          </Form>
-        </div>
-      </Col>
-    </Row>
-
-
+              </Form>
+            </div>
+          </Col>
+        </Row>
 
         {/*  
         <Row>
@@ -293,7 +283,6 @@ export default function Register() {
           </Col>
         </Row>*/}
       </Container>
-
     </>
-  )
+  );
 }

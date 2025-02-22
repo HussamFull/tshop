@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Sidebar, Menu, MenuItem ,SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import style from "./sidebar.module.css";
@@ -10,11 +10,13 @@ import { CgProfile } from "react-icons/cg";
 import { LiaFirstOrder } from "react-icons/lia";
 
 import { FaEnvelope, FaCog, FaUser, FaKey, FaBell, FaTools, FaQuestionCircle } from 'react-icons/fa';
+import { UserContext } from "../context/UserContext";
 
 
 
 
 export default function CustomSidebar() {
+  const { user } = useContext(UserContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toggleCollapsed = () => {
     setIsCollapsed(!isCollapsed);
@@ -70,7 +72,7 @@ export default function CustomSidebar() {
       
     }}
   />
-  <p style={{ margin: 0 }}> alnabelsi.hussam!</p>
+  <p style={{ margin: 0 }}> {user?.userName}!</p>
 </div>
 
         {/* Main Content */}

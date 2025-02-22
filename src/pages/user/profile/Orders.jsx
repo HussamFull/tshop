@@ -149,7 +149,7 @@ export default function Orders() {
                   </span>
                   <Button
                     onClick={() => cancelOrder(order._id)}
-                    className="btn btn-danger btn-sm"
+                     variant="outline-danger"
                   >
                     Cancel Order
                   </Button>
