@@ -9,6 +9,8 @@ import { Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import { toast, Bounce } from "react-toastify";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 const OrderItem = ({ order }) => {
   return (
@@ -111,72 +113,76 @@ export default function Orders() {
       setError(errorMessage);
     }
   };
-
+///// more code...
+  function TriggerExample() {
+    const renderTooltip = (props) => (
+      <Tooltip id="button-tooltip" {...props}>
+        Simple tooltip
+      </Tooltip>
+    );
+  }
   return (
     <>
       {" "}
       <h1>Info Orders</h1>
       <Container>
         {orders.map((order, index) => (
-          <Accordion defaultActiveKey="0" key={index}>
-            <Accordion.Item eventKey="1">
+            <Accordion defaultActiveKey={['0']} alwaysOpen>
+            <Accordion.Item eventKey="0">
               <Accordion.Header>
-                Order Address : {order.address} &&&nbsp;
-                <Badge
-                  className={`m-2 ${
-                    order.status === "delivered"
-                      ? "bg-success"
-                      : order.status === "pending"
-                      ? "bg-danger"
-                      : order.status === "cancelled"
-                      ? "bg-warning"
-                      : ""
-                  }`}
-                >
-                  Order Status: {order.status}
-                </Badge>
-                <Button onClick={() => cancelOrder(order._id)}>
-                  cancel Order{" "}
-                </Button>
-                {/*  <Link to={`/profile/order/${order._id}`}>See Order Details</Link> */}
+                <div className="w-100 d-flex justify-content-between align-items-center">
+                  <Badge
+                    className={`m-2 ${
+                      order.status === "delivered"
+                        ? "bg-success"
+                        : order.status === "pending"
+                        ? "bg-danger"
+                        : order.status === "cancelled"
+                        ? "bg-warning"
+                        : ""
+                    }`}
+                  >
+                    Order Status: {order.status}
+                  </Badge>
+                  <span className="btn btn-success">
+                    Order Address: {order.address}
+                  </span>
+                  <Button
+                    onClick={() => cancelOrder(order._id)}
+                    className="btn btn-danger btn-sm"
+                  >
+                    Cancel Order
+                  </Button>
+                </div>
               </Accordion.Header>
               <Accordion.Body>
                 phoneNumber: {order.phoneNumber}
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th>Product Image</th> {/* Changed to Image */}
+                      <th>Product Image</th>
                       <th>Product Title</th>
                       <th>Quantity</th>
-                      <th>Unit Price</th> {/* Added Unit Price */}
+                      <th>Unit Price</th>
                       <th>Total Price</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {order.products.map(
-                      (
-                        product // Map through each product
-                      ) => (
-                        <tr key={product.productId._id}>
-                          {" "}
-                          {/* Added key for each row - use product ID */}
-                          <td>
-                            <img
-                              src={product.productId.mainImage.secure_url}
-                              alt={product.productId.name}
-                              style={{ maxWidth: "50px" }}
-                            />{" "}
-                            {/* Display image */}
-                          </td>
-                          <td>{product.productId.name}</td>
-                          <td>{product.quantity}</td>
-                          <td>{product.unitPrice}</td>{" "}
-                          {/* Display unit price */}
-                          <td>{product.finalPrice}</td>{" "}
-                          {/* Display final price for this product */}
-                        </tr>
-                      )
-                    )}
+                    {order.products.map((product) => (
+                      <tr key={product.productId._id}>
+                        <td>
+                          <img
+                            src={product.productId.mainImage.secure_url}
+                            alt={product.productId.name}
+                            style={{ maxWidth: "50px" }}
+                          />
+                        </td>
+                        <td>{product.productId.name}</td>
+                        <td>{product.quantity}</td>
+                        <td>{product.unitPrice}</td>
+                        <td>{product.finalPrice}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </Table>
               </Accordion.Body>
