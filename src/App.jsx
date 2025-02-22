@@ -83,6 +83,7 @@ export default function App() {
           { path: '/categories/:categoryId', element: <CategoryProducts /> },
           { path: 'products', element: <Products /> },
           { path: 'product/:productId', element: <ProductDetails /> },
+          
           { path: 'cart', element:
             <ProtectedRoute>
             <Cart /> 
