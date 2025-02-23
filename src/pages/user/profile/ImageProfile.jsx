@@ -82,7 +82,7 @@ export default function ImageProfile() {
     </div>
 ) : (
     <div style={{ display: 'flex', justifyContent: 'center' }}> {/* حاوية مرنة للتوسيط */}
-        <img src={user.image.secure_url} alt="Preview" style={{ width: '200px', height: '200px', borderRadius: '50%' }} />
+        <img src={user.image?.secure_url} alt="Preview" style={{ width: '200px', height: '200px', borderRadius: '50%' }} />
     </div>
 )}
                              <br />
