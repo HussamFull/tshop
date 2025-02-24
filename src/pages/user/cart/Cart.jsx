@@ -302,6 +302,12 @@ export default function Cart() {
 
 
 
+  
+
+  
+
+
+
 
 
 
@@ -414,17 +420,7 @@ export default function Cart() {
 
                     <td />
                     <td />
-                    <td>
-                      <div className="cupon_text">
-                        <input type="text" placeholder="Coupon Code" />
-                        <a className="main_btn" href="#">
-                          Apply
-                        </a>
-                        <a className="gray_btn" href="#">
-                          Close Coupon
-                        </a>
-                      </div>
-                    </td>
+                   
                   </tr>
                   <tr>
                     <td />

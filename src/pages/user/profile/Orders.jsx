@@ -156,7 +156,8 @@ export default function Orders() {
                 </div>
               </Accordion.Header>
               <Accordion.Body>
-                phoneNumber: {order.phoneNumber}
+                phoneNumber: {order.phoneNumber} <span className="text-muted"> couponName: {order.couponName}</span>
+                <span className="text ">paymentType: {order.paymentType}</span>
                 <Table striped bordered hover>
                   <thead>
                     <tr>

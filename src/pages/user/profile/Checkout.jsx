@@ -4,6 +4,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { CartContext, useCart } from "../../../components/user/context/CartContext";
 
+
+
+
 export default function Checkout() {
   const location = useLocation();
   const [cartItems,setCartItems ] =useState(null);
@@ -12,6 +15,57 @@ export default function Checkout() {
   const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { setCartCount } =useContext(CartContext);
+
+
+
+
+
+  ///    Copoon 
+  // const [couponCode, setCouponCode] = useState("");
+  // const [couponError, setCouponError] = useState("");
+  // const [couponApplied, setCouponApplied] = useState(false);
+  // const [couponAmount, setCouponAmount] = useState(0);
+  // const [cartTotal, setCartTotal] = useState(0);
+
+  const [subtotal, setSubtotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [couponCode, setCouponCode] = useState("");
+
+   // دالة تطبيق الكوبون
+   const handleApplyCoupon = async () => {
+    try {
+      const token = localStorage.getItem("userToken");
+      const response = await axios.post(
+        `${import.meta.env.VITE_BURL}/coupon/apply`, // يجب إنشاء هذا ال endpoint في الباكند
+        { code:couponCode  },
+        {
+          headers: {
+            Authorization: `Tariq__${token}`
+          }
+        }
+      );
+      
+      setDiscount(response.data.discount);
+      toast.success("تم تطبيق الكوبون بنجاح!");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || 
+        "كوبون غير صالح أو منتهي الصلاحية"
+      );
+      setDiscount(0);
+    }
+  };
+
+///    Copoon 
+
+
+
+
+
+
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +76,7 @@ export default function Checkout() {
       const orderData = {
         address,
         phone,
+        couponCode // إضافة الكوبون للطلب
       };
 
       // إنشاء الطلب
@@ -68,9 +123,17 @@ export default function Checkout() {
     const total = cartItems.reduce((sum, item) => {
       return sum + item.quantity * item.details.finalPrice;
     }, 0);
+
     setSubtotal(total);
     console.log(total,"here")
   };
+
+    // دالة حساب المجموع
+    const calculateTotal = () => {
+      const total = cartItems?.reduce((sum, item) => 
+        sum + item.quantity * item.details.finalPrice, 0) || 0;
+      return (total - discount).toFixed(2);
+    };
  
 useEffect(()=>{
 getCart();
@@ -83,7 +146,20 @@ getCart();
             <div className="col-lg-8">
               <h3>Payment details</h3>
               <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                  
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="CouponCode"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    
+                  />
+               
+                </div>
                 <div className="form-group">
+                  
                   <input
                     type="text"
                     className="form-control"
@@ -107,8 +183,11 @@ getCart();
                   className="main_btn"
                   type="submit" 
                   disabled={isSubmitting}
+                  onClick={handleApplyCoupon}
+                  disabled={!couponCode}
                 >
                   {isSubmitting ? "Processing..." : "Confirm Request"}
+                  
                 </button>
               </form>
             </div>
@@ -127,6 +206,16 @@ getCart();
                 <div className="total_price">
                   <h4>Total</h4>
                   <h4>${cartItems?cartItems.reduce((sum, item) => sum + item.quantity * item.details.finalPrice, 0).toFixed(2):''}</h4>
+                  {discount > 0 && (
+                    <>
+                      <h4>الخصم</h4>
+                      <h4>${discount.toFixed(2)}</h4>
+                    </>
+                  )}
+                  
+                  <h4>الإجمالي النهائي</h4>
+                  <h4>${calculateTotal()}</h4>
+
                 </div>
               </div>
             </div>
