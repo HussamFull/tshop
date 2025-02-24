@@ -131,22 +131,23 @@ export default function Orders() {
             <Accordion.Item eventKey="0">
               <Accordion.Header>
                 <div className="w-100 d-flex justify-content-between align-items-center">
-                  <Badge
-                    className={`m-2 ${
-                      order.status === "delivered"
-                        ? "bg-success"
-                        : order.status === "pending"
-                        ? "bg-danger"
-                        : order.status === "cancelled"
-                        ? "bg-warning"
-                        : ""
-                    }`}
-                  >
-                    Order Status: {order.status}
-                  </Badge>
-                  <span className="btn btn-success">
+                <Button
+                        className="m-2"
+                        variant={
+                          order.status === "delivered"
+                            ? "outline-success"
+                            : order.status === "pending"
+                            ? "outline-danger"
+                            : order.status === "cancelled"
+                            ? "outline-warning"
+                            : "outline-info"
+                        }
+                      >
+                        Order Status: {order.status}
+                      </Button >
+                  <Button variant={"outline-success"} >
                     Order Address: {order.address}
-                  </span>
+                  </Button>
                   <Button
                     onClick={() => cancelOrder(order._id)}
                      variant="outline-danger"
@@ -155,9 +156,12 @@ export default function Orders() {
                   </Button>
                 </div>
               </Accordion.Header>
-              <Accordion.Body>
-                phoneNumber: {order.phoneNumber} <span className="text-muted"> couponName: {order.couponName}</span>
+              <Accordion.Body >
+              <div className="w-100 d-flex justify-content-between align-items-center">
+              <span className="text-muted"> phoneNumber: {order.phoneNumber} </span>
+                <span className="text-muted"> couponName: {order.couponName}</span>
                 <span className="text ">paymentType: {order.paymentType}</span>
+                </div>
                 <Table striped bordered hover>
                   <thead>
                     <tr>

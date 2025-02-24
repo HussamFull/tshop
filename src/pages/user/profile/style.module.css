@@ -1,0 +1,19 @@
+.btn-status-delivered {
+    background-color: #28a745; /* لون الخلفية للطلبات المكتملة */
+    color: white; /* لون النص */
+  }
+  
+  .btn-status-pending {
+    background-color: #dc3545; /* لون الخلفية للطلبات المعلقة */
+    color: white; /* لون النص */
+  }
+  
+  .btn-status-cancelled {
+    background-color: #ffc107; /* لون الخلفية للطلبات الملغاة */
+    color: black; /* لون النص */
+  }
+  
+  .btn-status-default {
+    background-color: #6c757d; /* لون الخلفية الافتراضي */
+    color: white; /* لون النص */
+  }
