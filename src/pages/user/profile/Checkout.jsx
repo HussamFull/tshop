@@ -9,7 +9,7 @@ import { CartContext, useCart } from "../../../components/user/context/CartConte
 
 export default function Checkout() {
   const location = useLocation();
-  const [cartItems,setCartItems ] =useState(null);
+  const [cartItems,setCartItems ] =useState([]);
   const navigate = useNavigate();
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
@@ -21,42 +21,8 @@ export default function Checkout() {
 
 
   ///    Copoon 
-  // const [couponCode, setCouponCode] = useState("");
-  // const [couponError, setCouponError] = useState("");
-  // const [couponApplied, setCouponApplied] = useState(false);
-  // const [couponAmount, setCouponAmount] = useState(0);
-  // const [cartTotal, setCartTotal] = useState(0);
-
-  const [subtotal, setSubtotal] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [couponCode, setCouponCode] = useState("");
-
-   // دالة تطبيق الكوبون
-   const handleApplyCoupon = async () => {
-    try {
-      const token = localStorage.getItem("userToken");
-      const response = await axios.post(
-        `${import.meta.env.VITE_BURL}/coupon/apply`, // يجب إنشاء هذا ال endpoint في الباكند
-        { code:couponCode  },
-        {
-          headers: {
-            Authorization: `Tariq__${token}`
-          }
-        }
-      );
-      
-      setDiscount(response.data.discount);
-      toast.success("تم تطبيق الكوبون بنجاح!");
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message || 
-        "كوبون غير صالح أو منتهي الصلاحية"
-      );
-      setDiscount(0);
-    }
-  };
-
-///    Copoon 
+   const [couponName, setCouponName] = useState("");
+   const [discount, setDiscount] = useState(0);
 
 
 
@@ -76,7 +42,7 @@ export default function Checkout() {
       const orderData = {
         address,
         phone,
-        couponCode // إضافة الكوبون للطلب
+        couponName // إضافة الكوبون للطلب
       };
 
       // إنشاء الطلب
@@ -129,15 +95,32 @@ export default function Checkout() {
   };
 
     // دالة حساب المجموع
+    // const calculateTotal = () => {
+    //   const total = cartItems?.reduce((sum, item) => 
+    //     sum + item.quantity * item.details.finalPrice, 0) || 0;
+    //   return (total - discount).toFixed(2);
+    // };
     const calculateTotal = () => {
-      const total = cartItems?.reduce((sum, item) => 
-        sum + item.quantity * item.details.finalPrice, 0) || 0;
-      return (total - discount).toFixed(2);
+      if (!cartItems || cartItems.length === 0) {
+        return '0.00'; // أو يمكنك إرجاع 0 إذا كنت تفضل ذلك
+      }
+    
+      // حساب المجموع الكلي بدون خصم
+      const totalWithoutDiscount = cartItems.reduce((sum, item) => sum + item.quantity * item.details.finalPrice, 0);
+    
+      // تطبيق الخصم إذا كان أكبر من 0
+      const totalWithDiscount = discount > 0 ? totalWithoutDiscount * (1 - discount) : totalWithoutDiscount;
+    
+      // إرجاع المجموع النهائي بعد الخصم
+      return totalWithDiscount.toFixed(2);
     };
  
 useEffect(()=>{
+  
 getCart();
 },[])
+
+
   return (
     <section className="checkout_area section_gap">
       <div className="container">
@@ -151,10 +134,9 @@ getCart();
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="CouponCode"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value)}
-                    
+                    placeholder="couponName"
+                    value={couponName}
+                    onChange={(e) => setCouponName(e.target.value)}
                   />
                
                 </div>
@@ -182,9 +164,8 @@ getCart();
                 <button 
                   className="main_btn"
                   type="submit" 
-                  disabled={isSubmitting}
-                  onClick={handleApplyCoupon}
-                  disabled={!couponCode}
+                  disabled={isSubmitting || !address || !phone}
+                
                 >
                   {isSubmitting ? "Processing..." : "Confirm Request"}
                   
