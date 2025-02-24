@@ -30,6 +30,8 @@ export default function Cart() {
       });
       console.log(response);
       setCart(response.data.products);
+      //calculateSubtotal(response.data.products);
+
       console.log(response.data.products);
       setIsLoading(false);
     } catch (error) {
@@ -50,9 +52,14 @@ export default function Cart() {
   useEffect(() => {
     getCart();
     //updateCartCount(cart); // تحديث العداد تلقائيًا
-    calculateSubtotal(cart);
+    //calculateSubtotal(cart);
   }, []);
 
+  useEffect(() => {
+   
+    //updateCartCount(cart); // تحديث العداد تلقائيًا
+    calculateSubtotal(cart);
+  }, [cart]);
   
 
   const deleteItem = async (productId) => {
@@ -251,6 +258,7 @@ export default function Cart() {
         return item;
       });
     });
+    //getCart();
 
     console.log("Incremented");
     console.log(productId);
@@ -258,9 +266,7 @@ export default function Cart() {
 
   //incQtym
 
-  {
-    /*  */
-  }
+
   const incQtym = async (productId) => {
     try {
       const token = localStorage.getItem("userToken");
@@ -291,7 +297,14 @@ export default function Cart() {
     } catch (error) {
       toast.error("Error updating quantity");
     }
+   // getCart();
   };
+
+
+
+
+
+
   return (
     <>
       {/*================Home Banner Area =================*/}
