@@ -92,8 +92,47 @@ export default function Login() {
 
         {/* العمود الخاص بالنموذج */}
         <Col md={6} className="d-flex align-items-center justify-content-center">
+        
+
+
+
+
+
+
+
+
           <div className="w-75">
-            <h1 className="text-center mb-4">Login </h1>
+             {/* Header Section */}
+                        <div className="text-center mb-4">
+                          <h1 className="syria-shop">
+                            <span className="syria">Syria </span>
+                            <span className="shop">Shop</span>
+                          </h1>
+                          {/* <h1 className="display-4">Syria Shop</h1>  */}
+                          <p className="text-muted mt-3">
+                          Register an account with us here {"     |    "}
+                            <Link to="/auth/Register" className="text-primary">
+                               SIGN UP
+                            </Link>
+                          </p>
+                        </div>   
+
+                         {/* Main Content */}
+            <div className="border p-4 rounded-3 shadow-sm">
+              <h2 className="text-center mb-3">
+               
+                <h3 className="syria-shop">
+                  <span className="syria">  Welcome to Syria </span>
+                  <span className="shop">Shop</span>
+                </h3>
+              </h2>
+
+              <h4 className="text-center text-muted mb-4">
+              Login your account
+              </h4>
+            
+                        
+            <h1 className="text-center mb-4"> </h1>
             {serverError && (
               <h4 className="text-danger text-center">{serverError}</h4>
             )}
@@ -143,6 +182,7 @@ export default function Login() {
                 </Link>
               </div>
             </Form>
+            </div>
           </div>
         </Col>
       </Row>

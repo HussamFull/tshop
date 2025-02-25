@@ -108,7 +108,7 @@ export default function Register() {
                   SIGN IN
                 </Link>
               </p>
-            </div>
+            </div>    
 
             {/* Main Content */}
             <div className="border p-4 rounded-3 shadow-sm">
