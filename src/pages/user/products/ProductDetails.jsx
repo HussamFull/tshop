@@ -254,7 +254,7 @@ export default function ProductDetails() {
                   </li>
                 </ul>
                 <p>{product.description}</p>
-                <div class="product_count">
+                {/* <div class="product_count">
                   <label for="qty">Quantity:</label>
                   <input
                     type="text"
@@ -279,7 +279,7 @@ export default function ProductDetails() {
                   >
                     <i class="lnr lnr-chevron-down"></i>
                   </button>
-                </div>
+                </div> */}
                 <div class="card_area">
                   <button
                     onClick={() => AddProductToCart(product._id)}

@@ -86,11 +86,11 @@ export default function CustomSidebar() {
           > 
           <MenuItem icon={<FaUser />} component={<Link to="/profile/info" />}>info Profil</MenuItem>
           <MenuItem icon={<FaEnvelope />} component={<Link to="/profile/imageProfile" />}>image Profil</MenuItem>
-            <MenuItem icon={<FaCog />}>Kontoeinstellungen</MenuItem>
+            {/* <MenuItem icon={<FaCog />}>Kontoeinstellungen</MenuItem>
             
             <MenuItem icon={<FaKey />}>Anmeldungs-Management</MenuItem>
             <MenuItem icon={<FaKey />}>Passwort ändern</MenuItem>
-            <MenuItem icon={<FaBell />}>Abonnieren</MenuItem>
+            <MenuItem icon={<FaBell />}>Abonnieren</MenuItem> */}
           </SubMenu>
 
           {/* Mein Produkt Section */}
@@ -101,7 +101,7 @@ export default function CustomSidebar() {
             style={{ fontWeight: 'bold' }}
           > 
             <MenuItem icon={<LiaFirstOrder />} component={<Link to="/profile/orders" />}>Orders</MenuItem>
-            <MenuItem icon={<LiaFirstOrder />} component={<Link to="/profile/createOrder" />}>CreateOrder</MenuItem>
+            {/* <MenuItem icon={<LiaFirstOrder />} component={<Link to="/profile/createOrder" />}>CreateOrder</MenuItem> */}
             
             <MenuItem>Status der Registrierung</MenuItem>
           </SubMenu>

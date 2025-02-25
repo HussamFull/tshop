@@ -162,7 +162,7 @@ getCart();
                   />
                 </div>
                 <button 
-                  className="main_btn"
+                  className="main_btn "
                   type="submit" 
                   disabled={isSubmitting || !address || !phone}
                 
@@ -176,28 +176,40 @@ getCart();
               <div className="order_box">
                 <h2>Your orders</h2>
                 <ul className="list">
+                <li>
+                    <a href="#"
+                      >Product
+                      <span>Total</span>
+                    </a>
+                  </li>
                   {cartItems?cartItems.map(item => (
                     <li key={item.productId}>
-                      <span>{item.details.name}</span>
-                      <span className="middle">x {item.quantity}</span>
+                     <a href="#" >{item.details.name}
+                      <span className="middle"> {item.quantity}</span>
                       <span className="last">${(item.quantity * item.details.finalPrice).toFixed(2)}</span>
-                    </li>
+                   </a> </li>
                   )):''}
                 </ul>
-                <div className="total_price">
-                  <h4>Total</h4>
-                  <h4>${cartItems?cartItems.reduce((sum, item) => sum + item.quantity * item.details.finalPrice, 0).toFixed(2):''}</h4>
+                <ul className="list list_2">
+                <li> 
+                    <a href="#">Subtotal
+                      <span>${cartItems?cartItems.reduce((sum, item) => sum + item.quantity * item.details.finalPrice, 0).toFixed(2):''}</span>
+                    </a>
+                  </li>
+                  <li>
                   {discount > 0 && (
-                    <>
-                      <h4>الخصم</h4>
-                      <h4>${discount.toFixed(2)}</h4>
-                    </>
+                    <a href="#">Discount
+                      <span>${discount.toFixed(2)}</span>
+                    </a>
                   )}
-                  
-                  <h4>الإجمالي النهائي</h4>
-                  <h4>${calculateTotal()}</h4>
+                  </li>
+                  <li>
+                    <a href="#">Total
+                      <span>${calculateTotal()}</span>
+                    </a>
+                  </li>
+                  </ul>
 
-                </div>
               </div>
             </div>
           </div>

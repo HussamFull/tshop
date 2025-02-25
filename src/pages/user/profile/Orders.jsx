@@ -9,8 +9,8 @@ import { Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import { toast, Bounce } from "react-toastify";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const OrderItem = ({ order }) => {
   return (
@@ -113,7 +113,7 @@ export default function Orders() {
       setError(errorMessage);
     }
   };
-///// more code...
+  ///// more code...
   function TriggerExample() {
     const renderTooltip = (props) => (
       <Tooltip id="button-tooltip" {...props}>
@@ -127,40 +127,51 @@ export default function Orders() {
       <h1>Info Orders</h1>
       <Container>
         {orders.map((order, index) => (
-            <Accordion defaultActiveKey={['0']} alwaysOpen>
-            <Accordion.Item eventKey="0">
+          <Accordion defaultActiveKey={["0"]} alwaysOpen>
+            <Accordion.Item eventKey="1">
               <Accordion.Header>
                 <div className="w-100 d-flex justify-content-between align-items-center">
-                <Button
-                        className="m-2"
-                        variant={
-                          order.status === "delivered"
-                            ? "outline-success"
-                            : order.status === "pending"
-                            ? "outline-danger"
-                            : order.status === "cancelled"
-                            ? "outline-warning"
-                            : "outline-info"
-                        }
-                      >
-                        Order Status: {order.status}
-                      </Button >
-                  <Button variant={"outline-success"} >
+                  <Button
+                    className="m-2"
+                    variant={
+                      order.status === "delivered"
+                        ? "outline-success"
+                        : order.status === "pending"
+                        ? "outline-danger"
+                        : order.status === "cancelled"
+                        ? "outline-warning"
+                        : "outline-info"
+                    }
+                  >
+                    Order Status: {order.status}
+                  </Button>
+                  <Button variant={"outline-success"}>
                     Order Address: {order.address}
                   </Button>
                   <Button
                     onClick={() => cancelOrder(order._id)}
-                     variant="outline-danger"
+                    variant="outline-danger"
                   >
                     Cancel Order
                   </Button>
                 </div>
               </Accordion.Header>
-              <Accordion.Body >
-              <div className="w-100 d-flex justify-content-between align-items-center">
-              <span className="text-muted"> phoneNumber: {order.phoneNumber} </span>
-                <span className="text-muted"> couponName: {order.couponName}</span>
-                <span className="text ">paymentType: {order.paymentType}</span>
+              <Accordion.Body>
+                <div className="w-100 d-flex justify-content-between align-items-center p-2">
+                  <Button variant="outline-warning">
+                    {" "}
+                    phoneNumber: {order.phoneNumber}{" "}
+                  </Button>
+
+                  {order.couponName ? (
+                    <Button variant="outline-warning">
+                      couponName: {order.couponName}
+                    </Button>
+                  ) : null}
+
+                  <Button variant="outline-warning">
+                    paymentType: {order.paymentType}
+                  </Button>
                 </div>
                 <Table striped bordered hover>
                   <thead>

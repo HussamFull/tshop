@@ -70,12 +70,12 @@ export default function CustomNavbar() {
                           <li className="nav-item">
                             <Link className="nav-link" to={'/Products'}>Shop Product</Link>
                           </li>
-                          <li className="nav-item">
+                          {/* <li className="nav-item">
                             <a className="nav-link" href="single-product.html">Product Details</a>
-                          </li>
-                          <li className="nav-item">
+                          </li> */}
+                          {/* <li className="nav-item">
                             <a className="nav-link" href="checkout.html">Product Checkout</a>
-                          </li>
+                          </li> */}
                           <li className="nav-item">
                              <Link  to={'Cart'} className="nav-link" >Shopping Cart</Link>
                           </li>
@@ -86,16 +86,16 @@ export default function CustomNavbar() {
                           aria-expanded="false">Blog</a>
                         <ul className="dropdown-menu">
                           <li className="nav-item">
-                            <a className="nav-link" href="blog.html">Blog</a>
+                            <a className="nav-link" href="#">Blog</a>
                           </li>
                           <li className="nav-item">
-                            <a className="nav-link" href="single-blog.html">Blog Details</a>
+                            <a className="nav-link" href="#">Blog Details</a>
                           </li>
                         </ul>
                       </li>
                      
                       <li className="nav-item">
-                        <a className="nav-link" href="contact.html">Contact</a>
+                        <a className="nav-link" href="#">Contact</a>
                       </li>
                       <li className="nav-item">
                         <Link className="nav-link" to={'/auth/login'}>Login</Link>
