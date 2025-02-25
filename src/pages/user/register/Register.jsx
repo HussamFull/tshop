@@ -83,20 +83,21 @@ export default function Register() {
   return (
     <>
       <CustomNavbar />
-      <Container className="mt-5">
-        <Row className="justify-content-center">
+      <Container fluid >
+        <Row >
           {/* العمود الخاص بالصورة */}
-          <Col md={6} className="d-none d-md-block p-0">
+          <Col md={6} className="d-none d-md-block p-4">
             <Image
               src="/assets/img/r1.png"
               thumbnail
               alt="Login"
-              className="w-100 vh-50"
+              className="w-100 vh-100"
             />
           </Col>
-          <Col md={6} lg={6} className="vh-100">
+          <Col md={6} className="d-flex align-items-center justify-content-center">
+          <div className="w-75">
             {/* Header Section */}
-            <div className="text-center mb-4">
+            <div className="text-center mb-4 ">
               <h1 className="syria-shop">
                 <span className="syria">Syria </span>
                 <span className="shop">Shop</span>
@@ -224,6 +225,7 @@ export default function Register() {
             </div> */}
               </Form>
             </div>
+          </div>
           </Col>
         </Row>
 
